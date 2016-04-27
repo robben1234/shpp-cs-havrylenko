@@ -9,8 +9,6 @@ package com.shpp.havrylenko.cs.task1;
 
 import com.shpp.karel.KarelTheRobot;
 
-import static com.shpp.havrylenko.cs.task1.SmartKarell.moveTwice;
-import static com.shpp.havrylenko.cs.task1.SmartKarell.turnRight;
 
 /**
  * Robot moves to the newspaper, picks it and goes back
@@ -18,70 +16,59 @@ import static com.shpp.havrylenko.cs.task1.SmartKarell.turnRight;
  * @author Kyrylo Havrylenko
  * @see
  */
-public class Assignment1Part1 extends KarelTheRobot {
+public class Assignment1Part1 extends SmartKarell {
 
     public void run() throws Exception {
 
-        if(moveToPaper()) {
-            if(pickPaper()) {
-                moveHome();
-            }
-        }
+        moveToPaper();
+        pickPaper();
+        moveHome();
 
     }
 
     /**
      * Moves robot to the paper
-     * @return true if robot moved to paper
      * @throws Exception
      */
-    public boolean moveToPaper() throws Exception {
+    public void moveToPaper() throws Exception {
         if(frontIsClear()) {
-            moveTwice(this);
-            turnRight(this);
+            moveTwice();
+            turnRight();
             if(frontIsClear()) {
                 move();
                 turnLeft();
                 if(frontIsClear()) {
-                    moveTwice(this);
-                    return true;
+                    moveTwice();
                 }
             }
         }
-        return false;
     }
 
     /**
      * Picks papers (beeper)
-     * @return true if newspaper picked
      * @throws Exception
      */
-    public boolean pickPaper() throws Exception {
+    public void pickPaper() throws Exception {
         if(beepersPresent()) {
             pickBeeper();
-            if(beepersInBag()) return true;
         }
-        return false;
     }
 
     /**
      * Moves robot back to 'home' position
-     * @return true if moved to home
      * @throws Exception
      */
-    public boolean moveHome() throws Exception {
+    public void moveHome() throws Exception {
 
         turnLeft();
         turnLeft();
-        moveTwice(this);
-        moveTwice(this);
-        turnRight(this);
+        moveTwice();
+        moveTwice();
+        turnRight();
         if(frontIsClear()) {
             move();
-            turnRight(this);
-            return true;
+            turnRight();
         }
-        return false;
     }
 
 

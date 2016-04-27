@@ -15,52 +15,48 @@ import com.shpp.karel.KarelTheRobot;
  * @author Kyrylo Havrylenko
  * @see
  */
-public class SmartKarell {
+public class SmartKarell extends KarelTheRobot {
 
     /**
      * Moves robot forward twice
-     * @param robot {@code KarelTheRobot} instance
      * @throws Exception
      */
-    public static void moveTwice(KarelTheRobot robot) throws Exception {
+    public void moveTwice() throws Exception {
 
-        robot.move();
-        robot.move();
+        move();
+        move();
 
     }
 
     /**
      * Turns robot right
-     * @param robot {@code KarelTheRobot} instance
      * @throws Exception
      */
-    public static void turnRight(KarelTheRobot robot) throws Exception {
+    public void turnRight() throws Exception {
 
-        robot.turnLeft();
-        robot.turnLeft();
-        robot.turnLeft();
+        turnLeft();
+        turnLeft();
+        turnLeft();
 
     }
 
     /**
      * Turns robot to the up side
-     * @param robot {@code KarelTheRobot} instance
      * @throws Exception
      */
-    public static void turnUp(KarelTheRobot robot) throws Exception {
+    public void turnUp() throws Exception {
 
-        while(!robot.facingNorth()) robot.turnLeft();
+        while(!facingNorth()) turnLeft();
 
     }
 
     /**
      * Turns robot to the down side
-     * @param robot {@code KarelTheRobot} instance
      * @throws Exception
      */
-    public static void turnDown(KarelTheRobot robot) throws Exception {
+    public void turnDown() throws Exception {
 
-        while(!robot.facingSouth()) robot.turnLeft();
+        while(!facingSouth()) turnLeft();
 
     }
 
