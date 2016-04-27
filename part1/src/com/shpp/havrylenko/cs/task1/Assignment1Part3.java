@@ -7,8 +7,6 @@ package com.shpp.havrylenko.cs.task1;
  *
  */
 
-import com.shpp.karel.KarelTheRobot;
-
 /**
  * Makes the robot find middle position
  *
@@ -20,8 +18,6 @@ public class Assignment1Part3 extends SmartKarell {
     public void run() throws Exception {
 
         while(!beepersPresent()) putBeepers();
-        move();
-        putBeeper();
         move();
         while(beepersPresent()) {
             pickBeeper();
@@ -39,9 +35,11 @@ public class Assignment1Part3 extends SmartKarell {
 
     public void putBeepers() throws Exception {
         if(!beepersPresent()) putBeeper();
-        while(frontIsClear()) move();
+        move();
+        while(frontIsClear() && !beepersPresent()) {
+            move();
+        }
         if(!beepersPresent()) putBeeper();
-        while(frontIsClear() && !beepersPresent()) move();
         turnLeft();
         turnLeft();
         move();
