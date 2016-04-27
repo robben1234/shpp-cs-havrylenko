@@ -9,11 +9,13 @@ package com.shpp.havrylenko.cs.task1;
 
 import com.shpp.karel.KarelTheRobot;
 
+import java.awt.image.Kernel;
+
 import static com.shpp.havrylenko.cs.task1.SmartKarell.moveTwice;
 import static com.shpp.havrylenko.cs.task1.SmartKarell.turnRight;
 
 /**
- * <what class do>
+ * Robot puts beepers on empty spots in colognes
  *
  * @author Kyrylo Havrylenko
  * @see
@@ -25,15 +27,16 @@ public class Assignment1Part2 extends KarelTheRobot {
         turnLeft();
         while(true) {
             // TODO: nice break, because for now it's not working
-            if(facingEast() && frontIsBlocked()) break;
             while(frontIsClear()) {
                 if(beepersPresent()) move();
                 else putBeeper();
             }
+
+
             if(facingNorth()) {
-                goToOtherCologne(true);
+                if(goToOtherCologne(true)) break;
             } else {
-                goToOtherCologne(false);
+                if(goToOtherCologne(false)) break;
             }
 
         }
@@ -42,39 +45,54 @@ public class Assignment1Part2 extends KarelTheRobot {
 
 
     /**
-     *
+     * Moves the robot to other cologne
      * @param dir direction. 0 - to bottom, 1 - to top
+     * @return true if robot can't move
+     * @throws Exception
      */
-    public void goToOtherCologne(boolean dir) throws Exception {
-        if(dir) {
-            turnRight(this);
+    public boolean goToOtherCologne(boolean dir) throws Exception {
+
+            turn(!dir, this);
+            if (checkForEnd(this)) return true;
             moveTwice(this);
             moveTwice(this);
-            turnLeft();
+            turn(dir, this);
             if(frontIsBlocked()) {
                 turnLeft();
                 turnLeft();
             } else {
-                turnLeft();
+                turn(dir, this);
                 while(frontIsClear()) move();
                 turnLeft();
                 turnLeft();
             }
 
-        } else {
+        return false;
+    }
+
+    /**
+     * Checks for the end of the map
+     * @param robot {@code KarelTheRobot} instance
+     * @return true if the end
+     * @throws Exception
+     */
+    public boolean checkForEnd(KarelTheRobot robot) throws Exception {
+        if(robot.facingEast() && robot.frontIsBlocked()) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Turns left or right on your input
+     * @param dir 0 - left, 1 - right
+     * @throws Exception
+     */
+    public void turn(boolean dir, KarelTheRobot robot) throws Exception {
+        if(dir) {
             turnLeft();
-            moveTwice(this);
-            moveTwice(this);
-            turnRight(this);
-            if(frontIsBlocked()) {
-                turnLeft();
-                turnLeft();
-            } else {
-                turnRight(this);
-                while(frontIsClear()) move();
-                turnLeft();
-                turnLeft();
-            }
+        } else {
+            turnRight(robot);
         }
     }
 

@@ -17,6 +17,11 @@ import com.shpp.karel.KarelTheRobot;
  */
 public class SmartKarell {
 
+    /**
+     * Moves robot forward twice
+     * @param robot {@code KarelTheRobot} instance
+     * @throws Exception
+     */
     public static void moveTwice(KarelTheRobot robot) throws Exception {
 
         robot.move();
@@ -24,6 +29,11 @@ public class SmartKarell {
 
     }
 
+    /**
+     * Turns robot right
+     * @param robot {@code KarelTheRobot} instance
+     * @throws Exception
+     */
     public static void turnRight(KarelTheRobot robot) throws Exception {
 
         robot.turnLeft();
@@ -32,12 +42,22 @@ public class SmartKarell {
 
     }
 
+    /**
+     * Turns robot to the up side
+     * @param robot {@code KarelTheRobot} instance
+     * @throws Exception
+     */
     public static void turnUp(KarelTheRobot robot) throws Exception {
 
         while(!robot.facingNorth()) robot.turnLeft();
 
     }
 
+    /**
+     * Turns robot to the down side
+     * @param robot {@code KarelTheRobot} instance
+     * @throws Exception
+     */
     public static void turnDown(KarelTheRobot robot) throws Exception {
 
         while(!robot.facingSouth()) robot.turnLeft();
