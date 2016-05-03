@@ -18,7 +18,7 @@ import java.awt.*;
  * @author Kyrylo Havrylenko
  * @see
  */
-public class Pawprints extends WindowProgram {
+public class Assignment2Part3 extends WindowProgram {
     /* The default width and height of the window. These constants will tell Java to
      * create a window whose size is *approximately* given by these dimensions. You should
      * not directly use these constants in your program; instead, use getWidth() and
