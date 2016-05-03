@@ -13,7 +13,7 @@ import com.shpp.cs.a.graphics.WindowProgram;
 import java.awt.*;
 
 /**
- * <what class do>
+ * Draws caterpillar
  *
  * @author Kyrylo Havrylenko
  * @see

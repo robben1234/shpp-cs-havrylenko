@@ -13,7 +13,7 @@ import com.shpp.cs.a.graphics.WindowProgram;
 import java.awt.*;
 
 /**
- * Draws pawprint on JFrame
+ * Draws pawprint
  *
  * @author Kyrylo Havrylenko
  * @see

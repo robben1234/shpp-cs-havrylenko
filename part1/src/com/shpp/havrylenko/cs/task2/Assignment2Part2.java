@@ -15,7 +15,7 @@ import com.shpp.cs.a.graphics.WindowProgram;
 import java.awt.*;
 
 /**
- * <what class do>
+ * Draws 4 JOval and 1 JRect
  *
  * @author Kyrylo Havrylenko
  * @see
