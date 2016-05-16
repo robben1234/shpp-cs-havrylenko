@@ -10,7 +10,7 @@ package com.shpp.havrylenko.cs.task3;
 import java.util.Random;
 
 /**
- * <what class do>
+ * Simulates petersburg game
  *
  * @author Kyrylo Havrylenko
  * @see
