@@ -1,14 +1,15 @@
 1.
 
     private static int lives = NTURNS;
-    private GRect paddle;
-    private GOval ball;
-    private GLabel remainLives;
-    private double vx;
-    private double vy = 5.0;
-    private RandomGenerator rgen = RandomGenerator.getInstance();
-    private boolean gameIsOn = true;
-    private int brickCounter = NBRICK_ROWS * NBRICKS_PER_ROW;
+        private GRect paddle;
+        private GOval ball;
+        private GLabel remainLives;
+        private double vx;
+        private double vy = 5.0;
+        private RandomGenerator rgen = RandomGenerator.getInstance();
+        private boolean isGameOn = true;
+        private int brickCounter = NBRICK_ROWS * NBRICKS_PER_ROW;
+        private boolean isRoundStarted = true;
 
     Каждое поле объявлено как в private и используется в нескольких private
     методах. Я не предоставляю никакого публичного api, на эти поля могут
@@ -22,8 +23,9 @@
     rgen вынесен в скоп класса только потому, что каждый раз, когда нужно рандомное число
     создавать новую переменную неудобно (к тому же он синглтон).
 
-    gameIsOn и brickCounter здесь потому, что также используются в нескольких функциях,
-    влияют кончилась ли игра и вообще, создавать лишнюю связанность методов не хотелось бы.
+    isGameOn, brickCounter и isRoundStarted здесь потому, что также используются в нескольких
+    функциях, влияют кончилась ли игра и вообще, создавать лишнюю связанность
+     методов не хотелось бы.
 
 2.
 
