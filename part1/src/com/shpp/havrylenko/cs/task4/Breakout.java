@@ -96,8 +96,9 @@ public class Breakout extends WindowProgram {
     private double vx;
     private double vy = 5.0;
     private RandomGenerator rgen = RandomGenerator.getInstance();
-    private boolean gameIsOn = true;
+    private boolean isGameOn = true;
     private int brickCounter = NBRICK_ROWS * NBRICKS_PER_ROW;
+    private boolean isRoundStarted = true;
 
     public void run() {
 
@@ -108,13 +109,14 @@ public class Breakout extends WindowProgram {
         generateRandomVx();
         drawBricks();
 
-        while(gameIsOn) {
+        while(isGameOn) {
             moveBall();
         }
     }
 
     /**
      * Catches move event from mouse and moves along paddle
+     *
      * @param event mouse event
      */
     public void mouseMoved(MouseEvent event) {
@@ -125,34 +127,45 @@ public class Breakout extends WindowProgram {
     }
 
     /**
+     * Catches click event from mouse and set round to start
+     *
+     * @param event mouse event
+     */
+    public void mouseClicked(MouseEvent event) {
+        isRoundStarted = true;
+    }
+
+    /**
      * Animates moves of ball
      */
     private void moveBall() {
-        ball.move(vx, vy);
+        if(isRoundStarted) {
+            ball.move(vx, vy);
 
-        GObject collider = getCollidingObject();
-        if(collider == paddle) {
-            paddleCollide();
-        } else if (collider != null && collider != remainLives) {
-            remove(collider);
-            brickCounter--;
-            if(brickCounter <= 0) playerWon();
-            vy = -vy;
+            GObject collider = getCollidingObject();
+            if(collider == paddle) {
+                paddleCollide();
+            } else if(collider != null && collider != remainLives) {
+                remove(collider);
+                brickCounter--;
+                if(brickCounter <= 0) playerWon();
+                vy = -vy;
+            }
+
+            if(hittingTopWall()) {
+                vy = -vy;
+            }
+
+            if(hittingSideWall()) {
+                vx = -vx;
+            }
+
+            if(hittingBottomWall()) {
+                loseRound();
+            }
         }
-
-        if(hittingTopWall()) {
-            vy = -vy;
-        }
-
-        if(hittingSideWall()) {
-            vx = -vx;
-        }
-
-        if(hittingBottomWall()) {
-            loseRound();
-        }
-
         pause(PAUSE_TIME);
+
     }
 
     /**
@@ -214,7 +227,9 @@ public class Breakout extends WindowProgram {
 
     /**
      * Gets X coord for new brick
+     *
      * @param colNum column number of new brick
+     *
      * @return x coord
      */
     private double brickCoordX(int colNum) {
@@ -226,7 +241,9 @@ public class Breakout extends WindowProgram {
 
     /**
      * Gets Y coord for new brick
+     *
      * @param rowNum column number of new brick
+     *
      * @return y coord
      */
     private double brickCoordY(int rowNum) {
@@ -237,6 +254,7 @@ public class Breakout extends WindowProgram {
 
     /**
      * Checks if ball hitting side wall
+     *
      * @return boolean true if hitting
      */
     private boolean hittingSideWall() {
@@ -246,6 +264,7 @@ public class Breakout extends WindowProgram {
 
     /**
      * Checks if ball hitting top wall
+     *
      * @return boolean true if hitting
      */
     private boolean hittingTopWall() {
@@ -254,6 +273,7 @@ public class Breakout extends WindowProgram {
 
     /**
      * Checks if ball hitting bottom wall
+     *
      * @return boolean true if hitting
      */
     private boolean hittingBottomWall() {
@@ -283,14 +303,15 @@ public class Breakout extends WindowProgram {
         ball.setLocation(getWidth() / 2, getHeight() / 2);
         lives--;
         drawLives();
-        if(lives <= 0 ) gameOver();
+        isRoundStarted = false;
+        if(lives <= 0) gameOver();
     }
 
     /**
      * Draws GLabel with 'GAME OVER' caption when game is lost
      */
     private void gameOver() {
-        gameIsOn = false;
+        isGameOn = false;
         removeAll();
         GLabel gameOver = new GLabel("GAME OVER");
         gameOver.setFont(new Font("Arial", Font.BOLD, getWidth() / 10));
@@ -303,7 +324,7 @@ public class Breakout extends WindowProgram {
      * Draws GLabel with 'YOU WON' caption when game is lost
      */
     private void playerWon() {
-        gameIsOn = false;
+        isGameOn = false;
         removeAll();
         GLabel gameOver = new GLabel("YOU WON");
         gameOver.setFont(new Font("Arial", Font.BOLD, getWidth() / 10));
@@ -314,6 +335,7 @@ public class Breakout extends WindowProgram {
 
     /**
      * Gets colliding object when ball hitting something
+     *
      * @return GObject or Null if there's no collision
      */
     private GObject getCollidingObject() {
