@@ -193,9 +193,8 @@ public class Breakout extends WindowProgram {
      * Draws ball on screen
      */
     private void drawBall() {
-        ball = new GOval(getWidth() / 2 -
-                                 BALL_RADIUS * 2, getHeight() / 2 - BALL_RADIUS * 2, BALL_RADIUS
-                                 * 2, BALL_RADIUS * 2);
+        ball = new GOval(getWidth() / 2 - BALL_RADIUS * 2, getHeight() / 2 -
+                BALL_RADIUS * 2, BALL_RADIUS * 2, BALL_RADIUS * 2);
         ball.setFilled(true);
         ball.setColor(Color.BLACK);
         add(ball);
@@ -277,7 +276,8 @@ public class Breakout extends WindowProgram {
      * @return boolean true if hitting
      */
     private boolean hittingBottomWall() {
-        return (ball.getY() + BALL_RADIUS * 2 > getHeight());
+        return (ball.getY() + BALL_RADIUS * 2 > getHeight() - PADDLE_Y_OFFSET
+                + PADDLE_HEIGHT);
     }
 
     /**
@@ -339,18 +339,19 @@ public class Breakout extends WindowProgram {
      * @return GObject or Null if there's no collision
      */
     private GObject getCollidingObject() {
+
         GObject el = null;
         Double[] xs = {
                 ball.getX(),
                 ball.getX() + 2 * BALL_RADIUS,
                 ball.getX(),
-                ball.getX() + 2 * BALL_RADIUS
+                ball.getX() + 2 * BALL_RADIUS,
         };
         Double[] ys = {
                 ball.getY(),
                 ball.getY(),
                 ball.getY() + 2 * BALL_RADIUS,
-                ball.getY() + 2 * BALL_RADIUS
+                ball.getY() + 2 * BALL_RADIUS,
         };
 
         for(int i = 0; i < 4; i++) {
