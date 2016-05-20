@@ -17,14 +17,14 @@ import java.util.List;
 import java.util.Scanner;
 
 /**
- * <what class do>
+ * Allows user to play in american road game via console
  *
  * @author Kyrylo Havrylenko
  * @see
  */
 public class Assignment5Part3 {
 
-    static List<String> stringsFromFile;
+    private static List<String> stringsFromFile;
 
     public static void main(String[] args) {
         Scanner in = new Scanner(System.in);
@@ -45,7 +45,12 @@ public class Assignment5Part3 {
         }
     }
 
-    public static List<String> giveAnswersForGame(String word) {
+    /**
+     * Looks for needed words in dictionary-list
+     * @param word 3-letter string
+     * @return list of strings
+     */
+    private static List<String> giveAnswersForGame(String word) {
 
         List<String> resultingStrings = new LinkedList<>();
         stringsFromFile.forEach((String wordFromFile) -> {
