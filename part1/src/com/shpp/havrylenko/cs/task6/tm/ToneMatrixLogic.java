@@ -23,7 +23,7 @@ public class ToneMatrixLogic {
 
         double maxValue = 0.;
         double minValue = 0.;
-        
+
         for(double aResult : result) {
             if(aResult > 1. || aResult < -1.) {
                 if(aResult > maxValue) maxValue = aResult;
