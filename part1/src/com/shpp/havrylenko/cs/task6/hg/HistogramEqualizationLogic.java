@@ -1,5 +1,7 @@
 package com.shpp.havrylenko.cs.task6.hg;
 
+import java.util.Arrays;
+
 public class HistogramEqualizationLogic {
     private static final int MAX_LUMINANCE = 255;
 
@@ -13,8 +15,16 @@ public class HistogramEqualizationLogic {
      * @return A histogram of those luminances.
      */
     public static int[] histogramFor(int[][] luminances) {
-        /* TODO: Implement this method! */
-        return null;
+        int[] histogram = new int[MAX_LUMINANCE + 1];
+        Arrays.fill(histogram, 0);
+
+        for(int i = 0; i < luminances.length; i++) {
+            for(int j = 0; j < luminances[0].length; j++) {
+                histogram[luminances[i][j]]++;
+            }
+        }
+
+        return histogram;
     }
 
     /**
@@ -28,8 +38,14 @@ public class HistogramEqualizationLogic {
      * @return The cumulative frequency array.
      */
     public static int[] cumulativeSumFor(int[] histogram) {
-		/* TODO: Implement this method! */
-        return null;
+		int[] cumFreqArr = new int[histogram.length];
+
+        cumFreqArr[0] = histogram[0];
+        for(int i = 1; i < histogram.length; i++) {
+            cumFreqArr[i] = cumFreqArr[i - 1] + histogram[i];
+        }
+
+        return cumFreqArr;
     }
 
     /**
@@ -39,8 +55,7 @@ public class HistogramEqualizationLogic {
      * @return The total number of pixels in that image.
      */
     public static int totalPixelsIn(int[][] luminances) {
-		/* TODO: Implement this method! */
-        return 0;
+        return luminances.length * luminances[0].length;
     }
 
     /**
@@ -54,7 +69,14 @@ public class HistogramEqualizationLogic {
      * @return The luminances of the image formed by applying histogram equalization.
      */
     public static int[][] equalize(int[][] luminances) {
-		/* TODO: Implement this method! */
-        return null;
+		int[] cumHistogram = cumulativeSumFor(histogramFor(luminances));
+        int totalPixels = totalPixelsIn(luminances);
+
+        for(int i = 0; i < luminances.length; i++) {
+            for(int j = 0; j < luminances[0].length; j++) {
+                luminances[i][j] = MAX_LUMINANCE * cumHistogram[luminances[i][j]] / totalPixels;
+            }
+        }
+        return luminances;
     }
 }
