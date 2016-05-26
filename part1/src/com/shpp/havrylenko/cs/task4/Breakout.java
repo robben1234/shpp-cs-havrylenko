@@ -77,6 +77,7 @@ public class Breakout extends WindowProgram {
      * Radius of the ball in pixels
      */
     private static final int BALL_RADIUS = 10;
+    private static final int BALL_DIAMETER = BALL_RADIUS * 2;
 
     /**
      * Offset of the top brick row from the top
@@ -112,7 +113,7 @@ public class Breakout extends WindowProgram {
         generateRandomVx();
         drawBricks();
 
-        while(isGameOn) {
+        while (isGameOn) {
             moveBall();
         }
     }
@@ -123,7 +124,7 @@ public class Breakout extends WindowProgram {
      * @param event mouse event
      */
     public void mouseMoved(MouseEvent event) {
-        if(event.getX() > PADDLE_WIDTH || event.getX() < getWidth() -
+        if (event.getX() > PADDLE_WIDTH || event.getX() < getWidth() -
                 PADDLE_WIDTH) {
             paddle.setLocation(event.getX() - PADDLE_WIDTH / 2, getHeight() - PADDLE_Y_OFFSET);
         }
@@ -142,28 +143,29 @@ public class Breakout extends WindowProgram {
      * Animates moves of ball
      */
     private void moveBall() {
-        if(isRoundStarted) {
+        if (isRoundStarted) {
             ball.move(vx, vy);
 
             GObject collider = getCollidingObject();
-            if(collider == paddle) {
-                paddleCollide();
-            } else if(collider != null && collider != remainLives) {
+            if (collider == paddle) {
+                onPaddleCollide();
+            } else if (collider != null && collider != remainLives) {
                 remove(collider);
                 brickCounter--;
-                if(brickCounter <= 0) playerWon();
+                if (brickCounter <= 0)
+                    playerWon();
                 vy = -vy;
             }
 
-            if(hittingTopWall()) {
+            if (isHittingTopWall()) {
                 vy = -vy;
             }
 
-            if(hittingSideWall()) {
+            if (isHittingSideWalls()) {
                 vx = -vx;
             }
 
-            if(hittingBottomWall()) {
+            if (isHittingBottowWall()) {
                 loseRound();
             }
         }
@@ -175,7 +177,7 @@ public class Breakout extends WindowProgram {
      * Draws a GLabel with info about remaining player lives
      */
     private void drawLives() {
-        if(remainLives != null) remove(remainLives);
+        if (remainLives != null) remove(remainLives);
         remainLives = new GLabel("REMAIN lives: " + lives, 20, 20);
         remainLives.setFont(new Font("Arial", Font.BOLD, getWidth() / 20));
         add(remainLives);
@@ -196,8 +198,8 @@ public class Breakout extends WindowProgram {
      * Draws ball on screen
      */
     private void drawBall() {
-        ball = new GOval(getWidth() / 2 - BALL_RADIUS * 2, getHeight() / 2 -
-                BALL_RADIUS * 2, BALL_RADIUS * 2, BALL_RADIUS * 2);
+        ball = new GOval(getWidth() / 2 - BALL_DIAMETER, getHeight() / 2 -
+                BALL_DIAMETER, BALL_DIAMETER, BALL_DIAMETER);
         ball.setFilled(true);
         ball.setColor(Color.BLACK);
         add(ball);
@@ -215,8 +217,8 @@ public class Breakout extends WindowProgram {
                 Color.CYAN
         };
 
-        for(int i = 0; i < NBRICK_ROWS; i++) {
-            for(int j = 0; j < NBRICKS_PER_ROW; j++) {
+        for (int i = 0; i < NBRICK_ROWS; i++) {
+            for (int j = 0; j < NBRICKS_PER_ROW; j++) {
                 double x = brickCoordX(i);
                 double y = brickCoordY(j);
                 GRect brick = new GRect(x, y, BRICK_WIDTH, BRICK_HEIGHT);
@@ -259,8 +261,8 @@ public class Breakout extends WindowProgram {
      *
      * @return boolean true if hitting
      */
-    private boolean hittingSideWall() {
-        return (ball.getX() <= 0 || (ball.getX() + BALL_RADIUS * 2) >=
+    private boolean isHittingSideWalls() {
+        return (ball.getX() <= 0 || (ball.getX() + BALL_DIAMETER) >=
                 getWidth());
     }
 
@@ -269,7 +271,7 @@ public class Breakout extends WindowProgram {
      *
      * @return boolean true if hitting
      */
-    private boolean hittingTopWall() {
+    private boolean isHittingTopWall() {
         return (ball.getY() <= 0);
     }
 
@@ -278,15 +280,15 @@ public class Breakout extends WindowProgram {
      *
      * @return boolean true if hitting
      */
-    private boolean hittingBottomWall() {
-        return (ball.getY() + BALL_RADIUS * 2 > getHeight() - PADDLE_Y_OFFSET
+    private boolean isHittingBottowWall() {
+        return (ball.getY() + BALL_DIAMETER > getHeight() - PADDLE_Y_OFFSET
                 + PADDLE_HEIGHT);
     }
 
     /**
      * Changes direction of a ball when collided with paddle
      */
-    private void paddleCollide() {
+    private void onPaddleCollide() {
         vy = -vy;
     }
 
@@ -295,7 +297,7 @@ public class Breakout extends WindowProgram {
      */
     private void generateRandomVx() {
         vx = rgen.nextDouble(1.0, 3.0);
-        if(rgen.nextBoolean(0.5)) vx = -vx;
+        if (rgen.nextBoolean(0.5)) vx = -vx;
     }
 
     /**
@@ -307,7 +309,7 @@ public class Breakout extends WindowProgram {
         lives--;
         drawLives();
         isRoundStarted = false;
-        if(lives <= 0) gameOver();
+        if (lives <= 0) gameOver();
     }
 
     /**
@@ -319,7 +321,9 @@ public class Breakout extends WindowProgram {
         GLabel gameOver = new GLabel("GAME OVER");
         gameOver.setFont(new Font("Arial", Font.BOLD, getWidth() / 10));
         gameOver.setColor(Color.RED);
-        add(gameOver, getWidth() / 2 - gameOver.getWidth() / 2, getHeight() /
+        add(gameOver,
+            getWidth() / 2 - gameOver.getWidth() / 2,
+            getHeight() /
                 2);
     }
 
@@ -332,8 +336,9 @@ public class Breakout extends WindowProgram {
         GLabel gameOver = new GLabel("YOU WON");
         gameOver.setFont(new Font("Arial", Font.BOLD, getWidth() / 10));
         gameOver.setColor(Color.GREEN);
-        add(gameOver, getWidth() / 2 - gameOver.getWidth() / 2, getHeight() /
-                2);
+        add(gameOver,
+            getWidth() / 2 - gameOver.getWidth() / 2,
+            getHeight() / 2);
     }
 
     /**
@@ -343,27 +348,29 @@ public class Breakout extends WindowProgram {
      */
     private GObject getCollidingObject() {
 
+        double ballX = ball.getX();
+        double ballY = ball.getY();
         GObject el = null;
         Double[] xs = {
-                ball.getX(),
-                ball.getX() + 2 * BALL_RADIUS,
-                ball.getX(),
-                ball.getX() + 2 * BALL_RADIUS,
+                ballX,
+                ballX + BALL_DIAMETER,
+                ballX,
+                ballX + BALL_DIAMETER,
         };
         Double[] ys = {
-                ball.getY(),
-                ball.getY(),
-                ball.getY() + 2 * BALL_RADIUS,
-                ball.getY() + 2 * BALL_RADIUS,
+                ballY,
+                ballY,
+                ballY + BALL_DIAMETER,
+                ballY + BALL_DIAMETER,
         };
 
-        for(int i = 0; i < 4; i++) {
+        for (int i = 0; i < 4; i++) {
 
             double x = xs[i];
             double y = ys[i];
 
             el = getElementAt(x, y);
-            if(el != null) {
+            if (el != null) {
                 break;
             }
         }
