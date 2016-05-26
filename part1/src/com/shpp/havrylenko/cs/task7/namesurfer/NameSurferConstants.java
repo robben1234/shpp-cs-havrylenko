@@ -1,4 +1,4 @@
-package com.shpp.havrylenko.cs.task6.namesurfer;
+package com.shpp.havrylenko.cs.task7.namesurfer;
 
 /*
  * File: NameSurferConstants.java
@@ -23,7 +23,7 @@ public interface NameSurferConstants {
     /**
      * The name of the file containing the data
      */
-    public static final String NAMES_DATA_FILE = "com/shpp/havrylenko/cs/task6/namesurfer/names-data.txt";
+    public static final String NAMES_DATA_FILE = "com/shpp/havrylenko/cs/task7/namesurfer/names-data.txt";
 
     /**
      * The first decade in the database

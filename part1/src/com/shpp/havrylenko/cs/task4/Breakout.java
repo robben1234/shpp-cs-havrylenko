@@ -100,6 +100,9 @@ public class Breakout extends WindowProgram {
     private int brickCounter = NBRICK_ROWS * NBRICKS_PER_ROW;
     private boolean isRoundStarted = true;
 
+    /**
+     * Entry point
+     */
     public void run() {
 
         addMouseListeners();

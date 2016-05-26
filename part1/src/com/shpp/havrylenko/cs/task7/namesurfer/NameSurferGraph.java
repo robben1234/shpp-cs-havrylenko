@@ -1,4 +1,4 @@
-package com.shpp.havrylenko.cs.task6.namesurfer;
+package com.shpp.havrylenko.cs.task7.namesurfer;
 
 /*
  * File: NameSurferGraph.java
