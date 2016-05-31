@@ -124,9 +124,13 @@ public class Breakout extends WindowProgram {
      * @param event mouse event
      */
     public void mouseMoved(MouseEvent event) {
-        if (event.getX() > PADDLE_WIDTH || event.getX() < getWidth() -
-                PADDLE_WIDTH) {
-            paddle.setLocation(event.getX() - PADDLE_WIDTH / 2, getHeight() - PADDLE_Y_OFFSET);
+        int x = event.getX();
+        if (x > PADDLE_WIDTH || x < getWidth() - PADDLE_WIDTH) {
+
+            if(x >= getWidth() - PADDLE_WIDTH)
+                x -= PADDLE_WIDTH;
+
+            paddle.setLocation(x, getHeight() - PADDLE_Y_OFFSET);
         }
     }
 
@@ -165,7 +169,7 @@ public class Breakout extends WindowProgram {
                 vx = -vx;
             }
 
-            if (isHittingBottowWall()) {
+            if (isHittingBottomWall()) {
                 loseRound();
             }
         }
@@ -280,7 +284,7 @@ public class Breakout extends WindowProgram {
      *
      * @return boolean true if hitting
      */
-    private boolean isHittingBottowWall() {
+    private boolean isHittingBottomWall() {
         return (ball.getY() + BALL_DIAMETER > getHeight() - PADDLE_Y_OFFSET
                 + PADDLE_HEIGHT);
     }
