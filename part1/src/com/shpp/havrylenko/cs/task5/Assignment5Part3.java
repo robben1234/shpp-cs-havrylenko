@@ -39,6 +39,7 @@ public class Assignment5Part3 {
 
 
         while(true) {
+            System.out.print("Enter 3 english letters (for ex: \"NNN\"): ");
             String word = in.nextLine();
             System.out.println("Resulting words: ");
             giveAnswersForGame(word.toLowerCase()).forEach(System.out::println);
@@ -53,21 +54,24 @@ public class Assignment5Part3 {
     private static List<String> giveAnswersForGame(String word) {
 
         List<String> resultingStrings = new LinkedList<>();
-        stringsFromFile.forEach((String wordFromFile) -> {
-            for(int i = 0; i < wordFromFile.length(); i++) {
-                if(wordFromFile.charAt(i) == word.charAt(0)) {
-                    for(int j = i + 1; j < wordFromFile.length(); j++) {
-                        if(wordFromFile.charAt(j) == word.charAt(1)) {
-                            for(int k = j + 1; k < wordFromFile.length(); k++) {
-                                if(wordFromFile.charAt(k) == word.charAt(2)) {
-                                    resultingStrings.add(wordFromFile);
-                                }
+        stringsFromFile.forEach((String wordFromFile) -> checkIfWordIsCorrect(wordFromFile, resultingStrings, word));
+        return resultingStrings;
+    }
+
+    private static void checkIfWordIsCorrect(String wordFromFile, List resultingStrings, String word) {
+
+        for(int i = 0; i < wordFromFile.length(); i++) {
+            if(wordFromFile.charAt(i) == word.charAt(0)) {
+                for(int j = i + 1; j < wordFromFile.length(); j++) {
+                    if(wordFromFile.charAt(j) == word.charAt(1)) {
+                        for(int k = j + 1; k < wordFromFile.length(); k++) {
+                            if(wordFromFile.charAt(k) == word.charAt(2)) {
+                                resultingStrings.add(wordFromFile);
                             }
                         }
                     }
                 }
             }
-        });
-        return resultingStrings;
+        }
     }
 }
