@@ -16,9 +16,9 @@ import java.net.URISyntaxException;
 
 public class NameSurfer extends SimpleProgram implements NameSurferConstants {
 
-    JTextField nameField = new JTextField(20);
-    JButton graphButton = new JButton("Graph");
-    JButton clearButton = new JButton("Clear");
+    private JTextField nameField = new JTextField(20);
+    private JButton graphButton = new JButton("Graph");
+    private JButton clearButton = new JButton("Clear");
 
     private NameSurferGraph graph = new NameSurferGraph();
     private NameSurferDataBase dataBase;
@@ -39,7 +39,7 @@ public class NameSurfer extends SimpleProgram implements NameSurferConstants {
         addActionListeners();
 
         try {
-            NameSurferDataBase dataBase = new NameSurferDataBase(NAMES_DATA_FILE);
+            dataBase = new NameSurferDataBase(NAMES_DATA_FILE);
         } catch (IOException | URISyntaxException e) {
             e.printStackTrace();
         }
@@ -56,9 +56,13 @@ public class NameSurfer extends SimpleProgram implements NameSurferConstants {
     public void actionPerformed(ActionEvent e) {
         // You fill this in //
         if(e.getSource() == graphButton) {
-            System.out.println("graph button clicked");
+            NameSurferEntry entry = dataBase.findEntry(nameField.getText());
+            if(entry != null) {
+                graph.addEntry(entry);
+                graph.update();
+            }
         } else if(e.getSource() == clearButton) {
-            System.out.println("clear button clicked");
+            graph.clear();
         }
     }
 }
