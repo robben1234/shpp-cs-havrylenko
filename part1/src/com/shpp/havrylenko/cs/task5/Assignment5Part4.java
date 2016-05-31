@@ -24,6 +24,7 @@ import java.util.List;
 public class Assignment5Part4 {
     public static void main(String[] args) {
         Assignment5Part4 instance = new Assignment5Part4();
+        System.out.println(instance.extractColumn("food-origins.csv", 0));
         System.out.println(instance.extractColumn("food-origins.csv", 1));
     }
 
