@@ -9,9 +9,19 @@ package com.shpp.havrylenko.cs.task7.namesurfer;
 
 import com.shpp.cs.a.simple.SimpleProgram;
 
+import javax.swing.*;
 import java.awt.event.ActionEvent;
+import java.io.IOException;
+import java.net.URISyntaxException;
 
 public class NameSurfer extends SimpleProgram implements NameSurferConstants {
+
+    JTextField nameField = new JTextField(20);
+    JButton graphButton = new JButton("Graph");
+    JButton clearButton = new JButton("Clear");
+
+    private NameSurferGraph graph = new NameSurferGraph();
+    private NameSurferDataBase dataBase;
 
 	/* Method: init() */
 
@@ -21,6 +31,19 @@ public class NameSurfer extends SimpleProgram implements NameSurferConstants {
      */
     public void init() {
         // You fill this in, along with any helper methods //
+        add(new JLabel("Name: "), NORTH);
+        add(nameField, NORTH);
+        add(graphButton, NORTH);
+        add(clearButton, NORTH);
+        add(graph);
+        addActionListeners();
+
+        try {
+            NameSurferDataBase dataBase = new NameSurferDataBase(NAMES_DATA_FILE);
+        } catch (IOException | URISyntaxException e) {
+            e.printStackTrace();
+        }
+
     }
 
 	/* Method: actionPerformed(e) */
@@ -32,5 +55,10 @@ public class NameSurfer extends SimpleProgram implements NameSurferConstants {
      */
     public void actionPerformed(ActionEvent e) {
         // You fill this in //
+        if(e.getSource() == graphButton) {
+            System.out.println("graph button clicked");
+        } else if(e.getSource() == clearButton) {
+            System.out.println("clear button clicked");
+        }
     }
 }
