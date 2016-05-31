@@ -60,7 +60,6 @@ public class Assignment5Part4 {
     private ArrayList<String> fieldsIn(String line) {
         ArrayList<String> fieldsInString = new ArrayList<>();
 
-        boolean openedBrace = false;
         int startIndex = 0;
         int endIndex = 0;
         int commaIndex = 0;
