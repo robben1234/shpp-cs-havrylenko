@@ -11,7 +11,30 @@ package com.shpp.havrylenko.cs.task7.namesurfer;
  * and "ERIC" are the same names.
  */
 
+import java.io.IOException;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
 public class NameSurferDataBase implements NameSurferConstants {
+
+    private List<String> database;
+    private List<NameSurferEntry> databaseEntries;
+
+    public static void main(String[] args) {
+        NameSurferDataBase db;
+        try {
+            db = new NameSurferDataBase(NAMES_DATA_FILE);
+            System.out.println(db.findEntry("Sam"));
+        } catch (IOException | URISyntaxException e) {
+            e.printStackTrace();
+        }
+
+    }
 
 	/* Constructor: NameSurferDataBase(filename) */
 
@@ -21,8 +44,16 @@ public class NameSurferDataBase implements NameSurferConstants {
      * exception if the requested file does not exist or if an error
      * occurs as the file is being read.
      */
-    public NameSurferDataBase(String filename) {
-        // You fill this in //
+    public NameSurferDataBase(String filename) throws IOException, URISyntaxException {
+        try {
+            URL path = NameSurferDataBase.class.getResource(filename);
+            database = Files.readAllLines(Paths.get(path.toURI()));
+        } catch(IOException | URISyntaxException e) {
+            e.printStackTrace();
+            throw e;
+        }
+        databaseEntries = new ArrayList<>();
+        database.forEach(p -> databaseEntries.add(new NameSurferEntry(p)));
     }
 	
 	/* Method: findEntry(name) */
@@ -33,8 +64,8 @@ public class NameSurferDataBase implements NameSurferConstants {
      * method returns null.
      */
     public NameSurferEntry findEntry(String name) {
-        // You need to turn this stub into a real implementation //
-        return null;
+        return databaseEntries.stream().filter(p -> (p.getName().toLowerCase().equals(name.toLowerCase())))
+                              .collect(Collectors.toList()).get(0);
     }
 }
 
