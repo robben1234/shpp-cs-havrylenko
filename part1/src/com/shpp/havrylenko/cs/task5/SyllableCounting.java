@@ -42,6 +42,7 @@ public class SyllableCounting extends TextProgram {
     private int syllablesIn(String word) {
 
         int syllables = 0;
+        word = word.toLowerCase();
 
         List<Character> vowels = new ArrayList<>();
         vowels.add('a');
