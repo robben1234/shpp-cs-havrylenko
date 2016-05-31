@@ -25,19 +25,8 @@ public class NameSurferDataBase implements NameSurferConstants {
     private List<String> database;
     private List<NameSurferEntry> databaseEntries;
 
-    public static void main(String[] args) {
-        NameSurferDataBase db;
-        try {
-            db = new NameSurferDataBase(NAMES_DATA_FILE);
-            System.out.println(db.findEntry("Sam"));
-        } catch (IOException | URISyntaxException e) {
-            e.printStackTrace();
-        }
 
-    }
-
-	/* Constructor: NameSurferDataBase(filename) */
-
+    /* Constructor: NameSurferDataBase(filename) */
     /**
      * Creates a new NameSurferDataBase and initializes it using the
      * data in the specified file.  The constructor throws an error
@@ -48,14 +37,30 @@ public class NameSurferDataBase implements NameSurferConstants {
         try {
             URL path = NameSurferDataBase.class.getResource(filename);
             database = Files.readAllLines(Paths.get(path.toURI()));
-        } catch(IOException | URISyntaxException e) {
+        } catch (IOException | URISyntaxException e) {
             e.printStackTrace();
             throw e;
         }
         databaseEntries = new ArrayList<>();
         database.forEach(p -> databaseEntries.add(new NameSurferEntry(p)));
     }
-	
+
+    /**
+     * Test
+     * @param args
+     */
+    public static void main(String[] args) {
+        NameSurferDataBase db;
+        try {
+            db = new NameSurferDataBase(NAMES_DATA_FILE);
+            System.out.println(db.findEntry("Sam"));
+            System.out.println(db.findEntry("zxczxczxczcx"));
+        } catch (IOException | URISyntaxException e) {
+            e.printStackTrace();
+        }
+
+    }
+
 	/* Method: findEntry(name) */
 
     /**
@@ -64,8 +69,12 @@ public class NameSurferDataBase implements NameSurferConstants {
      * method returns null.
      */
     public NameSurferEntry findEntry(String name) {
-        return databaseEntries.stream().filter(p -> (p.getName().toLowerCase().equals(name.toLowerCase())))
-                              .collect(Collectors.toList()).get(0);
+        try {
+            return databaseEntries.stream().filter(p -> (p.getName().toLowerCase().equals(name.toLowerCase())))
+                                  .collect(Collectors.toList()).get(0);
+        } catch (IndexOutOfBoundsException e) {
+            return null;
+        }
     }
 }
 
