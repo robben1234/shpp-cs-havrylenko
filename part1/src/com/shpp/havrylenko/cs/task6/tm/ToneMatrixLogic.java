@@ -26,17 +26,22 @@ public class ToneMatrixLogic {
 
         for(double aResult : result) {
             if(aResult > 1. || aResult < -1.) {
-                if(aResult > maxValue) maxValue = aResult;
-                else if(aResult < minValue) minValue = aResult;
+                if(aResult > maxValue)
+                    maxValue = aResult;
+                else if(aResult < minValue)
+                    minValue = aResult;
             }
         }
 
         double divider;
         double approxMinMax = maxValue + minValue;
 
-        if(approxMinMax == 0) return result;
-        else if(approxMinMax > 0) divider = maxValue;
-        else divider = minValue;
+        if(approxMinMax == 0)
+            return result;
+        else if(approxMinMax > 0)
+            divider = maxValue;
+        else
+            divider = minValue;
 
         for(int i = 0; i < result.length; i++) {
             result[i] /= divider;
