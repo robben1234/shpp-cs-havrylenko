@@ -148,12 +148,12 @@ public class Breakout extends WindowProgram {
 
             GObject collider = getCollidingObject();
             if (collider == paddle) {
-                onPaddleCollide();
+                vy = -vy;
             } else if (collider != null && collider != remainLives) {
                 remove(collider);
                 brickCounter--;
                 if (brickCounter <= 0)
-                    playerWon();
+                    displayMessage("You won!", Color.GREEN);
                 vy = -vy;
             }
 
@@ -286,13 +286,6 @@ public class Breakout extends WindowProgram {
     }
 
     /**
-     * Changes direction of a ball when collided with paddle
-     */
-    private void onPaddleCollide() {
-        vy = -vy;
-    }
-
-    /**
      * Generetes x-direction of a ball
      */
     private void generateRandomVx() {
@@ -309,33 +302,21 @@ public class Breakout extends WindowProgram {
         lives--;
         drawLives();
         isRoundStarted = false;
-        if (lives <= 0) gameOver();
+        if (lives <= 0)
+            displayMessage("Game Over", Color.RED);
     }
 
     /**
-     * Draws GLabel with 'GAME OVER' caption when game is lost
+     * Displays GLabal with message
+     * @param message String message you wan't to display
+     * @param colorOfMessage Color color of message you wan't to display
      */
-    private void gameOver() {
+    private void displayMessage(String message, Color colorOfMessage) {
         isGameOn = false;
         removeAll();
-        GLabel gameOver = new GLabel("GAME OVER");
+        GLabel gameOver = new GLabel(message);
         gameOver.setFont(new Font("Arial", Font.BOLD, getWidth() / 10));
-        gameOver.setColor(Color.RED);
-        add(gameOver,
-            getWidth() / 2 - gameOver.getWidth() / 2,
-            getHeight() /
-                2);
-    }
-
-    /**
-     * Draws GLabel with 'YOU WON' caption when game is lost
-     */
-    private void playerWon() {
-        isGameOn = false;
-        removeAll();
-        GLabel gameOver = new GLabel("YOU WON");
-        gameOver.setFont(new Font("Arial", Font.BOLD, getWidth() / 10));
-        gameOver.setColor(Color.GREEN);
+        gameOver.setColor(colorOfMessage);
         add(gameOver,
             getWidth() / 2 - gameOver.getWidth() / 2,
             getHeight() / 2);
