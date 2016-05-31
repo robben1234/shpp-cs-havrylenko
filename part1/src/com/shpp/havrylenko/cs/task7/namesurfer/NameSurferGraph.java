@@ -106,10 +106,7 @@ public class NameSurferGraph extends GCanvas
         };
 
         final int[] i = {0};
-        entryList.forEach((p) -> {
-            drawCurrentGraph(p, colors[i[0] % colors.length]);
-            i[0]++;
-        });
+        entryList.forEach((p) -> drawCurrentGraph(p, colors[i[0]++ % colors.length]));
     }
 
     private void drawCurrentGraph(NameSurferEntry entry, Color color) {
@@ -137,14 +134,23 @@ public class NameSurferGraph extends GCanvas
         }
     }
 
+    /**
+     * Gets Y-coord for graph out of rank
+     * @param rank rank of name in db
+     * @return int Y-coord
+     */
     private int getCurY(int rank) {
 
         return (rank == 0)
                 ? getHeight() - GRAPH_MARGIN_SIZE
-                : GRAPH_MARGIN_SIZE + (rank * (getHeight() -
-                GRAPH_MARGIN_SIZE * 2)) / MAX_RANK;
+                : GRAPH_MARGIN_SIZE + (rank * (getHeight() - GRAPH_MARGIN_SIZE * 2)) / MAX_RANK;
     }
 
+    /**
+     * Gets rank string (* if bad, rank if ok)
+     * @param rank rank of name in db
+     * @return String rank string
+     */
     private String getRankString(int rank) {
 
         return (rank != 0)

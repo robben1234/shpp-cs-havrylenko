@@ -54,7 +54,7 @@ public class NameSurfer extends SimpleProgram implements NameSurferConstants {
      * button actions.
      */
     public void actionPerformed(ActionEvent e) {
-        // You fill this in //
+
         if(e.getSource() == graphButton) {
             NameSurferEntry entry = dataBase.findEntry(nameField.getText());
             if(entry != null) {
