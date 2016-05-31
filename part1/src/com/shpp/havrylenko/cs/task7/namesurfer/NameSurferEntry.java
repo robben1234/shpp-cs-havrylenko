@@ -8,7 +8,21 @@ package com.shpp.havrylenko.cs.task7.namesurfer;
  * of that name for each decade stretching back to 1900.
  */
 
+import java.util.Arrays;
+import java.util.stream.Collectors;
+
 public class NameSurferEntry implements NameSurferConstants {
+
+    private String name;
+    private Integer[] positions;
+
+    /**
+     * Test
+     */
+    public static void main(String[] args) {
+        NameSurferEntry entry = new NameSurferEntry("Sam 58 69 99 131 168 236 278 380 467 408 466 997");
+        System.out.println(entry.toString());
+    }
 
 	/* Constructor: NameSurferEntry(line) */
 
@@ -19,7 +33,9 @@ public class NameSurferEntry implements NameSurferConstants {
      * decade.
      */
     public NameSurferEntry(String line) {
-        // You fill this in //
+        String[] lines = line.split(" ");
+        this.name = lines[0];
+        positions = Arrays.stream(Arrays.copyOfRange(lines, 1, lines.length)).map(Integer::parseInt).toArray(Integer[]::new);
     }
 
 	/* Method: getName() */
@@ -28,8 +44,7 @@ public class NameSurferEntry implements NameSurferConstants {
      * Returns the name associated with this entry.
      */
     public String getName() {
-        // You need to turn this stub into a real implementation //
-        return null;
+        return this.name;
     }
 
 	/* Method: getRank(decade) */
@@ -42,7 +57,8 @@ public class NameSurferEntry implements NameSurferConstants {
      * not appear in a decade, the rank value is 0.
      */
     public int getRank(int decade) {
-        // You need to turn this stub into a real implementation //
+        if(decade >= 0 && decade <= NameSurferConstants.NDECADES)
+            return positions[decade];
         return 0;
     }
 
@@ -53,8 +69,8 @@ public class NameSurferEntry implements NameSurferConstants {
      * NameSurferEntry.
      */
     public String toString() {
-        // You need to turn this stub into a real implementation //
-        return "";
+        String pos = Arrays.stream(positions).map(Object::toString).collect(Collectors.joining(" "));
+        return getName() + " [ " + pos + "]";
     }
 }
 
