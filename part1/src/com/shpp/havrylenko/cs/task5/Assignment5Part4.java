@@ -26,6 +26,9 @@ public class Assignment5Part4 {
         Assignment5Part4 instance = new Assignment5Part4();
         System.out.println(instance.extractColumn("food-origins.csv", 0));
         System.out.println(instance.extractColumn("food-origins.csv", 1));
+        System.out.println(instance.extractColumn("test_csv.csv", 0));
+        System.out.println(instance.extractColumn("test_csv.csv", 1));
+        System.out.println(instance.extractColumn("test_csv.csv", 2));
     }
 
     /**
@@ -61,19 +64,14 @@ public class Assignment5Part4 {
     private ArrayList<String> fieldsIn(String line) {
         ArrayList<String> fieldsInString = new ArrayList<>();
 
-        int startIndex = 0;
-        int endIndex = 0;
-        int commaIndex = 0;
+        int commaIndex;
         int prevCommaIndex = 0;
         for(int i = 0; i < line.length(); i++) {
             if(line.charAt(i) == '\"') {
-                startIndex = i;
                 i += 1;
                 while(line.charAt(i) != '\"' && i < line.length()) {
                     i++;
                 }
-                endIndex = i;
-                fieldsInString.add(line.substring(startIndex, endIndex + 1));
             }
             if(line.charAt(i) == ',') {
                 commaIndex = i;
@@ -84,6 +82,15 @@ public class Assignment5Part4 {
                 fieldsInString.add("\"" + line.substring(prevCommaIndex, i + 1) + "\"");
             }
         }
+
+        for (int i = 0; i < fieldsInString.size(); i++) {
+            fieldsInString.set(i, fieldsInString.get(i).replace("\"", ""));
+        }
+
+        for (int i = 0; i < fieldsInString.size(); i++) {
+            fieldsInString.set(i, "\"" + fieldsInString.get(i) + "\"");
+        }
+
         return fieldsInString;
     }
 }
