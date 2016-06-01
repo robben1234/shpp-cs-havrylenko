@@ -88,7 +88,8 @@ public class Breakout extends WindowProgram {
      * Number of turns
      */
     private static final int NTURNS = 3;
-    private static final int PAUSE_TIME = 1000 / 60;
+    private static final int FPS = 60;
+    private static final int PAUSE_TIME = 1000 / FPS;
 
     private static int lives = NTURNS;
     private GRect paddle;
@@ -100,6 +101,8 @@ public class Breakout extends WindowProgram {
     private boolean isGameOn = true;
     private int brickCounter = NBRICK_ROWS * NBRICKS_PER_ROW;
     private boolean isRoundStarted = true;
+    private boolean isRecentlyCollidedWithPaddle = false;
+    private int recentlyCollideWithPaddleCounter = 0;
 
     /**
      * Entry point
@@ -124,10 +127,11 @@ public class Breakout extends WindowProgram {
      * @param event mouse event
      */
     public void mouseMoved(MouseEvent event) {
+
         int x = event.getX();
         if (x > PADDLE_WIDTH || x < getWidth() - PADDLE_WIDTH) {
 
-            if(x >= getWidth() - PADDLE_WIDTH)
+            if (x >= getWidth() - PADDLE_WIDTH)
                 x -= PADDLE_WIDTH;
 
             paddle.setLocation(x, getHeight() - PADDLE_Y_OFFSET);
@@ -147,40 +151,78 @@ public class Breakout extends WindowProgram {
      * Animates moves of ball
      */
     private void moveBall() {
-        if (isRoundStarted) {
-            ball.move(vx, vy);
 
-            GObject collider = getCollidingObject();
-            if (collider == paddle) {
-                vy = -vy;
-            } else if (collider != null && collider != remainLives) {
-                remove(collider);
-                brickCounter--;
-                if (brickCounter <= 0)
-                    displayMessage("You won!", Color.GREEN);
-                vy = -vy;
-            }
-
-            if (isHittingTopWall()) {
-                vy = -vy;
-            }
-
-            if (isHittingSideWalls()) {
-                vx = -vx;
-            }
-
-            if (isHittingBottomWall()) {
-                loseRound();
-            }
-        }
         pause(PAUSE_TIME);
 
+        if (!isRoundStarted)
+            return;
+
+        ball.move(vx, vy);
+
+        GObject collider = getCollidingObject();
+
+        if (!checkOnRecentCollidesWithPaddle()) {
+            if (collider == paddle) {
+                vy = -vy;
+                isRecentlyCollidedWithPaddle = true;
+            }
+        }
+
+        if (collider != null && collider != remainLives && collider != paddle) {
+            remove(collider);
+            brickCounter--;
+            if (brickCounter <= 0)
+                displayMessage("You won!", Color.GREEN);
+            vy = -vy;
+        }
+
+        if (isHittingTopWall()) {
+            vy = -vy;
+        }
+
+        if (isHittingSideWalls()) {
+            vx = -vx;
+        }
+
+        if (isHittingBottomWall()) {
+            loseRound();
+            tryToReleaseRecentColliderCounter();
+        }
+    }
+
+
+    /**
+     * Check if there was recent collides with Paddle
+     *
+     * @return Boolean true if there was, false if there wasn't
+     */
+    private boolean checkOnRecentCollidesWithPaddle() {
+
+        if (isRecentlyCollidedWithPaddle) {
+            tryToReleaseRecentColliderCounter();
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * Tries to set recent collide status to false
+     */
+    private void tryToReleaseRecentColliderCounter() {
+
+        recentlyCollideWithPaddleCounter++;
+        if (recentlyCollideWithPaddleCounter > FPS) {
+            isRecentlyCollidedWithPaddle = false;
+            recentlyCollideWithPaddleCounter = 0;
+        }
     }
 
     /**
      * Draws a GLabel with info about remaining player lives
      */
     private void drawLives() {
+
         if (remainLives != null) remove(remainLives);
         remainLives = new GLabel("REMAIN lives: " + lives, 20, 20);
         remainLives.setFont(new Font("Arial", Font.BOLD, getWidth() / 20));
@@ -191,8 +233,10 @@ public class Breakout extends WindowProgram {
      * Draws paddle on screen
      */
     private void drawPaddle() {
-        paddle = new GRect(0, getHeight() - PADDLE_Y_OFFSET,
-                           PADDLE_WIDTH, PADDLE_HEIGHT);
+        paddle = new GRect(0,
+                           getHeight() - PADDLE_Y_OFFSET,
+                           PADDLE_WIDTH,
+                           PADDLE_HEIGHT);
         paddle.setFilled(true);
         paddle.setColor(Color.BLACK);
         add(paddle);
@@ -202,8 +246,10 @@ public class Breakout extends WindowProgram {
      * Draws ball on screen
      */
     private void drawBall() {
-        ball = new GOval(getWidth() / 2 - BALL_DIAMETER, getHeight() / 2 -
-                BALL_DIAMETER, BALL_DIAMETER, BALL_DIAMETER);
+        ball = new GOval(getWidth() / 2 - BALL_DIAMETER,
+                         getHeight() / 2 - BALL_DIAMETER,
+                         BALL_DIAMETER,
+                         BALL_DIAMETER);
         ball.setFilled(true);
         ball.setColor(Color.BLACK);
         add(ball);
@@ -285,8 +331,7 @@ public class Breakout extends WindowProgram {
      * @return boolean true if hitting
      */
     private boolean isHittingBottomWall() {
-        return (ball.getY() + BALL_DIAMETER > getHeight() - PADDLE_Y_OFFSET
-                + PADDLE_HEIGHT);
+        return (ball.getY() + BALL_DIAMETER > getHeight());
     }
 
     /**
@@ -294,7 +339,8 @@ public class Breakout extends WindowProgram {
      */
     private void generateRandomVx() {
         vx = rgen.nextDouble(1.0, 3.0);
-        if (rgen.nextBoolean(0.5)) vx = -vx;
+        if (rgen.nextBoolean(0.5))
+            vx = -vx;
     }
 
     /**
@@ -312,7 +358,8 @@ public class Breakout extends WindowProgram {
 
     /**
      * Displays GLabal with message
-     * @param message String message you wan't to display
+     *
+     * @param message        String message you wan't to display
      * @param colorOfMessage Color color of message you wan't to display
      */
     private void displayMessage(String message, Color colorOfMessage) {
