@@ -70,26 +70,42 @@ public class SteganographyLogic {
         return new GImage(secretImage);
     }
 
+    /**
+     * Makes red part of pixel odd
+     * @param pix pixel
+     * @return new pixel
+     */
     private static int makeItOdd(int pix) {
         int oldRedValue = GImage.getRed(pix);
-        int newRedValue = oldRedValue;
-        if(pix % 2 == 0) {
+        int newRedValue;
+
+        if(oldRedValue % 2 == 1) {
+            newRedValue = oldRedValue;
+        } else {
             newRedValue = oldRedValue + 1;
         }
+
         return GImage.createRGBPixel(newRedValue,
                                      GImage.getGreen(pix),
                                      GImage.getBlue(pix),
                                      GImage.getAlpha(pix));
     }
 
+    /**
+     * Makes red part of pixel even
+     * @param pix pixel
+     * @return new pixel
+     */
     private static int makeItEven(int pix) {
         int oldRedValue = GImage.getRed(pix);
-        int newRedValue = oldRedValue;
-        if(pix % 2 != 0) {
-            if(pix == 255) {
-                newRedValue = oldRedValue - 1;
-            }
+        int newRedValue;
+
+        if(oldRedValue % 2 == 0) {
+            newRedValue = oldRedValue;
+        } else {
+            newRedValue = oldRedValue - 1;
         }
+
         return GImage.createRGBPixel(newRedValue,
                                      GImage.getGreen(pix),
                                      GImage.getBlue(pix),
