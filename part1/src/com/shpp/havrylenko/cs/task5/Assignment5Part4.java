@@ -85,12 +85,8 @@ public class Assignment5Part4 {
 
         for (int i = 0; i < fieldsInString.size(); i++) {
             fieldsInString.set(i, fieldsInString.get(i).replace("\"", ""));
-        }
-
-        for (int i = 0; i < fieldsInString.size(); i++) {
             fieldsInString.set(i, "\"" + fieldsInString.get(i) + "\"");
         }
-
         return fieldsInString;
     }
 }
