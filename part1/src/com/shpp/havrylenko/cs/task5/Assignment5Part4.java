@@ -33,8 +33,10 @@ public class Assignment5Part4 {
 
     /**
      * Extracts needed column from csv-file
-     * @param filename name of file
+     *
+     * @param filename    name of file
      * @param columnIndex needed column
+     *
      * @return ArrayList of words
      */
     private ArrayList<String> extractColumn(String filename, int columnIndex) {
@@ -44,13 +46,13 @@ public class Assignment5Part4 {
         try {
             URL path = Assignment5Part3.class.getResource(filename);
             stringsFromFile = Files.readAllLines(Paths.get(path.toURI()));
-        } catch(IOException | URISyntaxException e) {
+        } catch (IOException | URISyntaxException e) {
             e.printStackTrace();
             return null;
         }
 
         ArrayList<String> resultingList = new ArrayList<>();
-        for(String stringFromFile : stringsFromFile) {
+        for (String stringFromFile : stringsFromFile) {
             resultingList.add(fieldsIn(stringFromFile).get(columnIndex));
         }
         return resultingList;
@@ -58,35 +60,41 @@ public class Assignment5Part4 {
 
     /**
      * Gets fields from inserted csv-string
+     *
      * @param line string with comma-separated words
+     *
      * @return ArrayList of words
      */
     private ArrayList<String> fieldsIn(String line) {
+
         ArrayList<String> fieldsInString = new ArrayList<>();
+        char separator = ',';
+        Boolean quoted = false;
+        StringBuilder fieldBuilder = new StringBuilder();
 
-        int commaIndex;
-        int prevCommaIndex = 0;
-        for(int i = 0; i < line.length(); i++) {
-            if(line.charAt(i) == '\"') {
-                i += 1;
-                while(line.charAt(i) != '\"' && i < line.length()) {
-                    i++;
-                }
+        for (int i = 0; i < line.length(); i++) {
+
+            char c = line.charAt(i);
+            fieldBuilder.append(c);
+
+            if (c == '"') {
+                quoted = !quoted;
             }
-            if(line.charAt(i) == ',') {
-                commaIndex = i;
-                fieldsInString.add("\"" + line.substring(prevCommaIndex, commaIndex) + "\"");
-                prevCommaIndex = commaIndex + 1;
+
+            if ((!quoted && c == separator) || i + 1 == line.length()) {
+                fieldsInString.add(fieldBuilder.toString()
+                                               .replaceAll(separator + "$", "")
+                                               .replaceAll("^\"|\"$", "")
+                                               .replace("\"\"", "\"")
+                                               .trim());
+                fieldBuilder = new StringBuilder();
             }
-            if(i == line.length() - 1) {
-                fieldsInString.add("\"" + line.substring(prevCommaIndex, i + 1) + "\"");
+
+            if (c == separator && i + 1 == line.length()) {
+                fieldsInString.add("");
             }
         }
 
-        for (int i = 0; i < fieldsInString.size(); i++) {
-            fieldsInString.set(i, fieldsInString.get(i).replace("\"", ""));
-            fieldsInString.set(i, "\"" + fieldsInString.get(i) + "\"");
-        }
         return fieldsInString;
     }
 }
