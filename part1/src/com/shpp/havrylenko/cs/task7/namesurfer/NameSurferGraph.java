@@ -121,7 +121,7 @@ public class NameSurferGraph extends GCanvas
 
             GLabel name = new GLabel(entry.getName() + " " + getRankString(entry.getRank(i)));
             name.setColor(color);
-            add(name, lineFromX, lineFromY);
+            add(name, lineToX, lineToY);
 
             if(i > 0) {
                 GLine line = new GLine(lineFromX, lineFromY, lineToX, lineToY);
