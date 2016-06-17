@@ -194,7 +194,7 @@ public class Calculator {
             System.out.println("USAGE: java Calculator");
             System.out.println("SUPPORTED OPERATORS: + - * /");
             System.out.println("SUPPORTED FUNCTIONS: sqrt() sin() cos()");
-            System.out.println("WE ALSO SUPPORT VARIABLES");
+            System.out.println("WE ALSO SUPPORT VARIABLES. THEY SHOULD BE SEPARATED WITH WHITESPACES FROM EVERYTHING");
             System.out.println("INPUT FORMAT:");
             System.out.println("\tVARIABLES:\t<name> <value>\n\t\t:next to enter next stage of input");
             System.out.println("\tFORMULA:  1 + 2 + 3 + ( 4 + 5 )");
@@ -222,7 +222,7 @@ public class Calculator {
                 vars.put(name, value);
             }
         }
-        System.out.println("Enter your formula:");
+        System.out.println("Enter your formula.\tDON'T FORGET VAR USAGE FORMAT: <WHITESPACE><var name><WHITESPACE>");
         if (in.hasNextLine())
             formula = in.nextLine();
 
