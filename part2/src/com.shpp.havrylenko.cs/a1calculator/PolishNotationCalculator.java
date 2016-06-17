@@ -1,28 +1,31 @@
 package com.shpp.havrylenko.cs.a1calculator;
 
- /*
- * PolishNotationCalculator   6/16/16, 22:23
- *
- * By Kyrylo Havrylenko
- *
- */
-
 import java.util.Stack;
 
 import static com.shpp.havrylenko.cs.a1calculator.UtilCalc.legalOps;
 
 /**
- * <what class do>
+ * Calculates RVP expression
  *
  * @author Kyrylo Havrylenko
  * @see
  */
 class PolishNotationCalculator {
 
+    /**
+     * Calculates RVP expression
+     * @param exp String in postfix notation with math. formula
+     * @return Double result
+     */
     static Double calculate(String exp) {
         return calculate(exp.split("\\s"));
     }
 
+    /**
+     * Calculates RVP expression
+     * @param expression String in postfix notation with math. formula
+     * @return Double result
+     */
     static Double calculate(String[] expression) {
 
         Stack<String> stack = new Stack<>();

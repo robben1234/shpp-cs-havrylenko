@@ -1,25 +1,23 @@
 package com.shpp.havrylenko.cs.a1calculator;
 
- /*
- * ShuntingYard   6/16/16, 20:36
- *
- * By Kyrylo Havrylenko
- *
- */
-
 import java.util.Stack;
 
 import static com.shpp.havrylenko.cs.a1calculator.UtilCalc.inputErrorMessage;
 import static com.shpp.havrylenko.cs.a1calculator.UtilCalc.legalOps;
 
 /**
- * <what class do>
+ * Transforms infix notation expression into postfix notation
  *
  * @author Kyrylo Havrylenko
  * @see
  */
 class ShuntingYard {
 
+    /**
+     * Gets precendence of operator
+     * @param op String operator
+     * @return int Precendence
+     */
     private static int getPrec(String op) {
         switch (op) {
             case IOperators.PLUS:
@@ -33,6 +31,11 @@ class ShuntingYard {
         }
     }
 
+    /**
+     * Checks whether String is number
+     * @param token String to check
+     * @return boolean result
+     */
     static boolean isNumber(String token) {
         try {
             Double d = Double.parseDouble(token);
@@ -42,6 +45,11 @@ class ShuntingYard {
         return true;
     }
 
+    /**
+     * Transforms infix notation expression into postfix notation
+     * @param input String[] formula infix
+     * @return String result postfix
+     */
     static String toPostfix(String[] input) {
 
         String output = "";

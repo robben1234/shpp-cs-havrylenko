@@ -1,14 +1,7 @@
 package com.shpp.havrylenko.cs.a1calculator;
 
- /*
- * IOperators   6/17/16, 04:01
- *
- * By Kyrylo Havrylenko
- *
- */
-
 /**
- * <what class do>
+ * String constants for supported operators
  *
  * @author Kyrylo Havrylenko
  * @see

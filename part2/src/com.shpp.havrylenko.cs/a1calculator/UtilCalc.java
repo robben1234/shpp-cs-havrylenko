@@ -1,17 +1,10 @@
 package com.shpp.havrylenko.cs.a1calculator;
 
- /*
- * UtilCalc   6/17/16, 03:48
- *
- * By Kyrylo Havrylenko
- *
- */
-
 import java.util.Arrays;
 import java.util.List;
 
 /**
- * <what class do>
+ * Util class with constants
  *
  * @author Kyrylo Havrylenko
  * @see

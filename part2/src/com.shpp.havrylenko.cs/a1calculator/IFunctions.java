@@ -1,14 +1,7 @@
 package com.shpp.havrylenko.cs.a1calculator;
 
- /*
- * IFunctions   6/17/16, 04:04
- *
- * By Kyrylo Havrylenko
- *
- */
-
 /**
- * <what class do>
+ * String constants for supported functions
  *
  * @author Kyrylo Havrylenko
  * @see

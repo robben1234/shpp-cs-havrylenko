@@ -1,12 +1,5 @@
 package com.shpp.havrylenko.cs.a1calculator;
 
- /*
- * Calculator   6/17/16, 00:08
- *
- * By Kyrylo Havrylenko
- *
- */
-
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -17,13 +10,19 @@ import java.util.stream.Stream;
 import static com.shpp.havrylenko.cs.a1calculator.UtilCalc.*;
 
 /**
- * <what class do>
+ * Models work of calculator via RVP
  *
  * @author Kyrylo Havrylenko
  * @see
  */
 public class Calculator {
 
+    /**
+     * Injects input variables to the formula
+     * @param formula String your formula to inject vars
+     * @param vars Map<String, Double> with variables
+     * @return
+     */
     private static String injectVars(String formula, HashMap<String, Double> vars) {
 
         if (vars == null)
@@ -42,10 +41,20 @@ public class Calculator {
         return result;
     }
 
+    /**
+     * Polymorf version of {@code injectFunctions}
+     * @param formula String to inject functions
+     * @return String[] formula with injected function calls results
+     */
     private static String[] injectFunctions(String formula) {
         return injectFunctions(formula.split("\\s"));
     }
 
+    /**
+     * Injects functions calls results into the formula
+     * @param formula String to inject functions
+     * @return String[] formula with injected function calls results
+     */
     private static String[] injectFunctions(String[] formula) {
 
         List<String> formulaList = Arrays.asList(formula);
@@ -85,6 +94,12 @@ public class Calculator {
         return result.trim().split("\\s");
     }
 
+    /**
+     * Calculates result of function call
+     * @param function String what function to call
+     * @param arg Argument to function call
+     * @return Double result
+     */
     private static Double doMath(String function, Double arg) {
         switch (function) {
             case IFunctions.SQRT:
@@ -98,12 +113,23 @@ public class Calculator {
         }
     }
 
+    /**
+     * Calculates result of your math formula; public API
+     * @param formula String formula with mathematic expression
+     * @param variables HashMap with variables used in formula
+     * @return Double result of calculation
+     */
     public static Double calculate(String formula, HashMap<String, Double> variables) {
         formula = injectVars(formula, variables);
         formula = validateFormula(formula);
         return PolishNotationCalculator.calculate(ShuntingYard.toPostfix(injectFunctions(formula)));
     }
 
+    /**
+     * Validates input
+     * @param formula String user input
+     * @return String validated formula
+     */
     private static String validateFormula(String formula) {
 
         StringBuilder validatedFormula = new StringBuilder();
@@ -147,12 +173,31 @@ public class Calculator {
         return validatedFormula.toString();
     }
 
+    /**
+     * CLI interface of program
+     * @param args args
+     */
     public static void main(String[] args) {
+
+        // TODO: --h
+
+
+        if(args.length > 0) {
+            System.out.println("USAGE: java Calculator");
+            System.out.println("SUPPORTED OPERATORS: + - * /");
+            System.out.println("SUPPORTED FUNCTIONS: sqrt() sin() cos()");
+            System.out.println("WE ALSO SUPPORT VARIABLES");
+            System.out.println("INPUT FORMAT:");
+            System.out.println("\tVARIABLES:\t<name> <value>\n\t\t:next to enter next stage of input");
+            System.out.println("\tFORMULA:  1 + 2 + 3 + ( 4 + 5 )");
+            return;
+        }
+
         Scanner in = new Scanner(System.in);
         HashMap<String, Double> vars = new HashMap<>();
-        String formula = " 123 + sqrt( a + 123 ) + a";
+        String formula = "";
 
-        System.out.println("ENTER VARIABLES. By format: <name> <value>\n:next to next stage of input:");
+        System.out.println("Enter variables. By format: <name> <value>\n:next to next stage of input:");
         while (in.hasNext()) {
             if (in.hasNextLine()) {
                 String[] line = in.nextLine().split("\\s");

@@ -11,6 +11,8 @@ import com.shpp.havrylenko.cs.a1calculator.Calculator;
 import org.junit.Assert;
 import org.junit.Test;
 
+import java.util.HashMap;
+
 /**
  * <what class do>
  *
@@ -110,5 +112,22 @@ public class CalculatorTest {
         System.out.println(result);
     }
 
+    @Test
+    public void grandTest() {
+        String formula = "23 * a / 7 + ( 9 * 2)";
+        HashMap<String, Double> vars = new HashMap<>();
+        vars.put("a", 123.);
+        double result = Calculator.calculate(formula, vars);
+        Assert.assertEquals(23 * 123 / 7 + ( 9 * 2), result, 0.2);
+    }
+
+    @Test
+    public void varTest() {
+        String formula = "2 * a";
+        HashMap<String, Double> vars = new HashMap<>();
+        vars.put("a", 10.);
+        double result = Calculator.calculate(formula, vars);
+        Assert.assertEquals(2 * 10., result, 0.1);
+    }
 
 }
