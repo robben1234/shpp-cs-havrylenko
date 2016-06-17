@@ -9,51 +9,41 @@ package com.shpp.havrylenko.cs.a1calculator;
 
 import java.util.Stack;
 
+import static com.shpp.havrylenko.cs.a1calculator.UtilCalc.legalOps;
+
 /**
  * <what class do>
  *
  * @author Kyrylo Havrylenko
  * @see
  */
-public class PolishNotationCalculator {
+class PolishNotationCalculator {
 
-    public static Double calculate(String exp) {
+    static Double calculate(String exp) {
         return calculate(exp.split("\\s"));
     }
 
-    public static Double calculate(String[] expression) {
+    static Double calculate(String[] expression) {
 
         Stack<String> stack = new Stack<>();
 
         for (String token : expression) {
             if (ShuntingYard.isNumber(token)) {
                 stack.push(token);
-            } else if (ShuntingYard.legalOps.contains(token)) {
-                double first = 0.;
-                double second = 0.;
+            } else if (legalOps.contains(token)) {
+                double first = Double.parseDouble(stack.pop());
+                double second = Double.parseDouble(stack.pop());
                 switch (token) {
-                    case "+":
-                        first = Double.parseDouble(stack.pop());
-                        second = Double.parseDouble(stack.pop());
+                    case IOperators.PLUS:
                         stack.push("" + (first + second));
                         break;
-                    case "-":
-                        first = Double.parseDouble(stack.pop());
-                        second = Double.parseDouble(stack.pop());
+                    case IOperators.MINUS:
                         stack.push("" + (second - first));
                         break;
-                    case "*":
-                        first = Double.parseDouble(stack.pop());
-                        second = Double.parseDouble(stack.pop());
+                    case IOperators.MULT:
                         stack.push("" + (first * second));
                         break;
-                    case "/":
-                        first = Double.parseDouble(stack.pop());
-                        if (Double.parseDouble(stack.peek()) != 0.) {
-                            second = Double.parseDouble(stack.pop());
-                        } else {
-                            throw new ArithmeticException("/ by zero");
-                        }
+                    case IOperators.DIVIDE:
                         stack.push("" + (second / first));
                         break;
                     default:
