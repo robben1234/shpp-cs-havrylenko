@@ -130,7 +130,7 @@ public class Calculator {
      * @param formula String user input
      * @return String validated formula
      */
-    private static String validateFormula(String formula) {
+    private static String validateFormula(String formula) throws IllegalArgumentException {
 
         StringBuilder validatedFormula = new StringBuilder();
         StringBuilder moreThanOneCharDigit = new StringBuilder();
@@ -139,7 +139,15 @@ public class Calculator {
 
             if (ShuntingYard.isNumber("" + formula.charAt(i))) {
                 int digitIdx = i;
-                while (ShuntingYard.isNumber("" + formula.charAt(digitIdx))) {
+                boolean dotted = false;
+                while (ShuntingYard.isNumber("" + formula.charAt(digitIdx)) || ".".equals("" + formula.charAt(digitIdx))) {
+                    if(".".equals("" + formula.charAt(digitIdx))) {
+                        if(!dotted)
+                            dotted = true;
+                        else
+                            throw new IllegalArgumentException(inputErrorMessage);
+                    }
+
                     moreThanOneCharDigit.append(formula.charAt(digitIdx++));
                     if (formula.length() <= digitIdx)
                         break;
