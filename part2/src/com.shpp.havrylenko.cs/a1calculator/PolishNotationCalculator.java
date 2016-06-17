@@ -2,6 +2,7 @@ package com.shpp.havrylenko.cs.a1calculator;
 
 import java.util.Stack;
 
+import static com.shpp.havrylenko.cs.a1calculator.UtilCalc.isNumber;
 import static com.shpp.havrylenko.cs.a1calculator.UtilCalc.legalOps;
 
 /**
@@ -31,7 +32,7 @@ class PolishNotationCalculator {
         Stack<String> stack = new Stack<>();
 
         for (String token : expression) {
-            if (ShuntingYard.isNumber(token)) {
+            if (isNumber(token)) {
                 stack.push(token);
             } else if (legalOps.contains(token)) {
                 double first = Double.parseDouble(stack.pop());

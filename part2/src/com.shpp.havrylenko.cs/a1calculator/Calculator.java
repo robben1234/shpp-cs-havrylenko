@@ -65,7 +65,7 @@ public class Calculator {
                 int openParIdx = funcCallIdx = i;
                 String funcArgs = "";
                 while (!formulaList.get(i).equals(")")) {
-                    if (ShuntingYard.isNumber(formulaList.get(i)) || legalOps.contains(formulaList.get(i)))
+                    if (isNumber(formulaList.get(i)) || legalOps.contains(formulaList.get(i)))
                         funcArgs += formulaList.get(i) + " ";
                     i++;
                 }
@@ -137,10 +137,10 @@ public class Calculator {
 
         for (int i = 0; i < formula.length(); i++) {
 
-            if (ShuntingYard.isNumber("" + formula.charAt(i))) {
+            if (isNumber("" + formula.charAt(i))) {
                 int digitIdx = i;
                 boolean dotted = false;
-                while (ShuntingYard.isNumber("" + formula.charAt(digitIdx)) || ".".equals("" + formula.charAt(digitIdx))) {
+                while (isNumber("" + formula.charAt(digitIdx)) || ".".equals("" + formula.charAt(digitIdx))) {
                     if(".".equals("" + formula.charAt(digitIdx))) {
                         if(!dotted)
                             dotted = true;
@@ -186,9 +186,6 @@ public class Calculator {
      * @param args args
      */
     public static void main(String[] args) {
-
-        // TODO: --h
-
 
         if(args.length > 0) {
             System.out.println("USAGE: java Calculator");
