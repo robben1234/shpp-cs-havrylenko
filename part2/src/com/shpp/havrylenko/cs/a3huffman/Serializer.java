@@ -10,17 +10,22 @@ package com.shpp.havrylenko.cs.a3huffman;
 import java.io.*;
 
 /**
- * <what class do>
+ * Util class to serialize class
  *
  * @author Kyrylo Havrylenko
  * @see
  */
 public class Serializer {
 
+    /**
+     * Serializes {@code EncodedFile}
+     * @param filename String where to save data (without '.ser')
+     * @param toSerialize Instance of class to serialize
+     */
     public static void serialize(String filename, EncodedFile toSerialize) {
-        FileOutputStream fos = null;
+
         try {
-            fos = new FileOutputStream(filename + ".ser");
+            FileOutputStream fos = new FileOutputStream(filename + ".ser");
             ObjectOutputStream oos = new ObjectOutputStream(fos);
             oos.writeObject(toSerialize);
             oos.close();
@@ -30,6 +35,11 @@ public class Serializer {
 
     }
 
+    /**
+     * Deserializes {@code EncodedFile}
+     * @param filename String name of file to deserialize
+     * @return EncodedFile deserialized data
+     */
     public static EncodedFile deserialize(String filename) {
         try {
             FileInputStream fis = new FileInputStream(filename);

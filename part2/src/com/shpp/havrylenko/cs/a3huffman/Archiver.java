@@ -12,7 +12,7 @@ import java.util.Map;
 import static com.shpp.havrylenko.cs.a3huffman.Node.buildTree;
 
 /**
- * <what class do>
+ * Archives files by Huffman coding algorithm
  *
  * @author Kyrylo Havrylenko
  * @see
@@ -45,17 +45,16 @@ public class Archiver {
                 Node<Character> freqTree = buildTree(freqMap);
                 String encodedString = encode(freqTree, input);
                 EncodedFile<Character> resultsOfEncoding = new EncodedFile<>(freqTree, encodedString);
-                Serializer.serialize(args[3] + ".ser", resultsOfEncoding);
+                Serializer.serialize(args[3], resultsOfEncoding);
                 System.out.println("Your file was successfully archived. Name of archive: " + args[3] + ".ser");
 
 
                 break;
             case "decode":
 
-                EncodedFile deserData = Serializer.deserialize(args[3]);
-                System.out.println(deserData.getEncodedString());
+                EncodedFile deserializedData = Serializer.deserialize(args[3]);
 
-                String decodedString = decode(deserData.getTree(), deserData.getEncodedString());
+                String decodedString = decode(deserializedData.getTree(), deserializedData.getEncodedString());
                 String filename = args[3].substring(0, args[3].length() - 4);
 
                 PrintWriter out = new PrintWriter(filename);
@@ -70,6 +69,13 @@ public class Archiver {
         }
     }
 
+    /**
+     * Encodes file contents
+     * @param freqTree tree of used in contents characters and their frequencies
+     * @param toEncode String of contents
+     * @param <T> Character
+     * @return String of encoded data
+     */
     public static <T> String encode(Node<T> freqTree, String toEncode) {
         assert freqTree != null;
 
@@ -80,34 +86,46 @@ public class Archiver {
         return encodedString;
     }
 
+    /**
+     * Decodes Huffman coding String
+     * @param freqTree tree of used in contents characters and their frequencies
+     * @param encodedString String of Huffman code
+     * @param <T> Character
+     * @return String origin decoded contents
+     */
     public static <T> String decode(Node<T> freqTree, String encodedString) {
         assert freqTree != null;
 
         String decodedString = "";
-
         Node<T> node = freqTree;
+
         for (Character code : encodedString.toCharArray()) {
-            if (code == '0') {
-                T value = node.getLeftChild().getData();
-                if (value != null) {
-                    decodedString += value.toString();
-                    node = freqTree;
-                } else {
-                    node = node.getLeftChild();
-                }
-            } else if (code == '1') {
-                T value = node.getRightChild().getData();
-                if (value != null) {
-                    decodedString += value.toString();
-                    node = freqTree;
-                } else {
-                    node = node.getRightChild();
-                }
+
+            Node<T> tempNode = (code == '0')
+                    ? node.getLeftChild()
+                    : node.getRightChild();
+
+            T value = tempNode.getData();
+
+            if (value != null) {
+                decodedString += value.toString();
+                node = freqTree;
+            } else {
+                node = tempNode;
             }
+
         }
         return decodedString;
     }
 
+    /**
+     * Gets Huffman code of Character
+     * @param freqTree tree of used in contents characters and their frequencies
+     * @param element Character code of which is needed
+     * @param codeString Mutable String where to save code
+     * @param <T> Character
+     * @return String Huffman code of {@code element}
+     */
     private static <T> String getCodes(Node<T> freqTree, Character element, StringBuilder codeString) {
         assert freqTree != null;
 
