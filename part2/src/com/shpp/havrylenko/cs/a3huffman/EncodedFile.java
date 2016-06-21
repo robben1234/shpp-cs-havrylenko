@@ -8,29 +8,33 @@ package com.shpp.havrylenko.cs.a3huffman;
  */
 
 import java.io.Serializable;
+import java.util.Map;
 
 /**
  * Util class to save data for serialization or deserialization
+ *
+ * @param <T>
  *
  * @author Kyrylo Havrylenko
  * @see
  */
 public class EncodedFile<T> implements Serializable {
 
-    Node<T> tree;
+    //    Node<T> tree;
     String encodedString;
+    Map<Character, Integer> freqs;
 
-    EncodedFile(Node<T> tree, String encodedString) {
-        this.tree = tree;
+    EncodedFile(Map<Character, Integer> freqs, String encodedString) {
+        this.freqs = freqs;
         this.encodedString = encodedString;
     }
 
-    public Node<T> getTree() {
-        return tree;
+    public Map<Character, Integer> getFreqs() {
+        return freqs;
     }
 
-    public void setTree(Node<T> tree) {
-        this.tree = tree;
+    public void setFreqs(Map<Character, Integer> freqs) {
+        this.freqs = freqs;
     }
 
     public String getEncodedString() {

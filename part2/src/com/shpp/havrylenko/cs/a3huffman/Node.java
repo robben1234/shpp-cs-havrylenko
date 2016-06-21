@@ -35,9 +35,11 @@ public class Node<T> implements Comparable<Node<T>>, Serializable {
 
     /**
      * Builds tree based on Character frequencies
-     * More frequent character, more higher it in tree
+     * More frequent character, more higher it is in tree
+     *
      * @param freqMap Map of Characters and Frequencies
-     * @param <T> Character
+     * @param <T>     Character
+     *
      * @return Node<T> root of tree
      */
     public static <T> Node<T> buildTree(Map<T, Integer> freqMap) {
@@ -105,6 +107,7 @@ public class Node<T> implements Comparable<Node<T>>, Serializable {
 
     /**
      * Determines if {@code Node} has children
+     *
      * @return Boolean true if does have children
      */
     public boolean doesHaveChildren() {
