@@ -1,5 +1,6 @@
 package com.shpp.havrylenko.cs.a3huffman;
 
+import java.io.Serializable;
 import java.util.Map;
 import java.util.PriorityQueue;
 
@@ -9,7 +10,7 @@ import java.util.PriorityQueue;
  * @author Kyrylo Havrylenko
  * @see
  */
-public class Node<T> implements Comparable<Node<T>> {
+public class Node<T> implements Comparable<Node<T>>, Serializable {
 
     protected int freq;
     protected T data;
@@ -32,7 +33,7 @@ public class Node<T> implements Comparable<Node<T>> {
         data = val;
     }
 
-    protected static <T> Node<T> buildTree(Map<T, Integer> freqMap) {
+    public static <T> Node<T> buildTree(Map<T, Integer> freqMap) {
 
         PriorityQueue<Node<T>> nodes = new PriorityQueue<>();
 
