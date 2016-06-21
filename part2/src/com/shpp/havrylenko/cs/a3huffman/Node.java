@@ -5,7 +5,7 @@ import java.util.Map;
 import java.util.PriorityQueue;
 
 /**
- * <what class do>
+ * Tree data structure for Huffman coding
  *
  * @author Kyrylo Havrylenko
  * @see
@@ -33,6 +33,13 @@ public class Node<T> implements Comparable<Node<T>>, Serializable {
         data = val;
     }
 
+    /**
+     * Builds tree based on Character frequencies
+     * More frequent character, more higher it in tree
+     * @param freqMap Map of Characters and Frequencies
+     * @param <T> Character
+     * @return Node<T> root of tree
+     */
     public static <T> Node<T> buildTree(Map<T, Integer> freqMap) {
 
         PriorityQueue<Node<T>> nodes = new PriorityQueue<>();
@@ -96,6 +103,10 @@ public class Node<T> implements Comparable<Node<T>>, Serializable {
         return freq - node.getFreq();
     }
 
+    /**
+     * Determines if {@code Node} has children
+     * @return Boolean true if does have children
+     */
     public boolean doesHaveChildren() {
         return (leftChild != null && rightChild != null);
     }

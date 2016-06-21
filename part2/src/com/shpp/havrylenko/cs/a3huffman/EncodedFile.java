@@ -10,7 +10,7 @@ package com.shpp.havrylenko.cs.a3huffman;
 import java.io.Serializable;
 
 /**
- * <what class do>
+ * Util class to save data for serialization or deserialization
  *
  * @author Kyrylo Havrylenko
  * @see
