@@ -3,9 +3,9 @@ package com.shpp.havrylenko.cs.a3huffman;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.URISyntaxException;
-import java.net.URL;
+import java.nio.file.FileSystems;
 import java.nio.file.Files;
-import java.nio.file.Paths;
+import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -19,7 +19,6 @@ import static com.shpp.havrylenko.cs.a3huffman.Node.buildTree;
  */
 public class Archiver {
 
-
     public static void main(String[] args) throws URISyntaxException, IOException {
 
         if (args.length != 4) {
@@ -32,8 +31,9 @@ public class Archiver {
         switch (args[2]) {
             case "encode":
 
-                URL path = Archiver.class.getResource(args[3]);
-                String input = new String(Files.readAllBytes(Paths.get(path.toURI())));
+                Path path = FileSystems.getDefault().getPath(args[3]);
+                String input = new String(Files.readAllBytes(path));
+                System.out.println(input);
 
                 Map<Character, Integer> freqMap = new HashMap<>();
 
@@ -44,17 +44,19 @@ public class Archiver {
 
                 Node<Character> freqTree = buildTree(freqMap);
                 String encodedString = encode(freqTree, input);
-                EncodedFile<Character> resultsOfEncoding = new EncodedFile<>(freqTree, encodedString);
+                EncodedFile<Character> resultsOfEncoding = new EncodedFile<>(freqMap, encodedString);
                 Serializer.serialize(args[3], resultsOfEncoding);
                 System.out.println("Your file was successfully archived. Name of archive: " + args[3] + ".ser");
 
-
                 break;
+
             case "decode":
 
                 EncodedFile deserializedData = Serializer.deserialize(args[3]);
+                assert deserializedData != null;
 
-                String decodedString = decode(deserializedData.getTree(), deserializedData.getEncodedString());
+                freqTree = buildTree(deserializedData.getFreqs());
+                String decodedString = decode(freqTree, deserializedData.getEncodedString());
                 String filename = args[3].substring(0, args[3].length() - 4);
 
                 PrintWriter out = new PrintWriter(filename);
@@ -63,17 +65,19 @@ public class Archiver {
                 System.out.println("Your file was successfully dearchived. Name of file: " + filename);
 
                 break;
+
             default:
                 System.err.println("INCORRECT INPUT");
-                break;
         }
     }
 
     /**
      * Encodes file contents
+     *
      * @param freqTree tree of used in contents characters and their frequencies
      * @param toEncode String of contents
-     * @param <T> Character
+     * @param <T>      Character
+     *
      * @return String of encoded data
      */
     public static <T> String encode(Node<T> freqTree, String toEncode) {
@@ -88,9 +92,11 @@ public class Archiver {
 
     /**
      * Decodes Huffman coding String
-     * @param freqTree tree of used in contents characters and their frequencies
+     *
+     * @param freqTree      tree of used in contents characters and their frequencies
      * @param encodedString String of Huffman code
-     * @param <T> Character
+     * @param <T>           Character
+     *
      * @return String origin decoded contents
      */
     public static <T> String decode(Node<T> freqTree, String encodedString) {
@@ -101,9 +107,15 @@ public class Archiver {
 
         for (Character code : encodedString.toCharArray()) {
 
-            Node<T> tempNode = (code == '0')
-                    ? node.getLeftChild()
-                    : node.getRightChild();
+            Node<T> tempNode;
+            if (code == '0') {
+                tempNode = node.getLeftChild();
+            } else if (code == '1') {
+                tempNode = node.getRightChild();
+            } else {
+                System.err.println("ERROR CODE");
+                break;
+            }
 
             T value = tempNode.getData();
 
@@ -120,17 +132,19 @@ public class Archiver {
 
     /**
      * Gets Huffman code of Character
-     * @param freqTree tree of used in contents characters and their frequencies
-     * @param element Character code of which is needed
+     *
+     * @param freqTree   tree of used in contents characters and their frequencies
+     * @param element    Character code of which is needed
      * @param codeString Mutable String where to save code
-     * @param <T> Character
+     * @param <T>        Character
+     *
      * @return String Huffman code of {@code element}
      */
     private static <T> String getCodes(Node<T> freqTree, Character element, StringBuilder codeString) {
         assert freqTree != null;
 
         if (freqTree.getData() != null) {
-            if (freqTree.getData() == element) {
+            if (freqTree.getData().toString().equals("" + element)) {
                 return codeString.toString();
             }
         } else if (freqTree.doesHaveChildren()) {
