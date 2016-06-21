@@ -1,6 +1,7 @@
 package com.shpp.havrylenko.cs.a3huffman;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.file.Files;
@@ -19,36 +20,54 @@ import static com.shpp.havrylenko.cs.a3huffman.Node.buildTree;
 public class Archiver {
 
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws URISyntaxException, IOException {
 
-        try {
-
-            URL path = Archiver.class.getResource("test.txt");
-            String stringsFromFile = new String(Files.readAllBytes(Paths.get(path.toURI())));
-            System.out.println(stringsFromFile);
-        } catch (IOException |URISyntaxException e) {
-            e.printStackTrace();
+        if (args.length != 4) {
+            System.out.println("USAGE: java Archiver <mode> <filename>");
+            System.out.println("<mode>: encode | decode");
+            System.out.println("<filename>: URL of file to encode/decode");
             return;
         }
-        String input = "asdzxcasd";
-        Map<Character, Integer> freqMap = new HashMap<>();
 
-        for (Character c : input.toCharArray()) {
-            Integer freqC = freqMap.get(c);
-            freqMap.put(c, (freqC != null ? freqC : 0) + 1);
+        switch (args[2]) {
+            case "encode":
+
+                URL path = Archiver.class.getResource(args[3]);
+                String input = new String(Files.readAllBytes(Paths.get(path.toURI())));
+
+                Map<Character, Integer> freqMap = new HashMap<>();
+
+                for (Character c : input.toCharArray()) {
+                    Integer freqC = freqMap.get(c);
+                    freqMap.put(c, (freqC != null ? freqC : 0) + 1);
+                }
+
+                Node<Character> freqTree = buildTree(freqMap);
+                String encodedString = encode(freqTree, input);
+                EncodedFile<Character> resultsOfEncoding = new EncodedFile<>(freqTree, encodedString);
+                Serializer.serialize(args[3] + ".ser", resultsOfEncoding);
+                System.out.println("Your file was successfully archived. Name of archive: " + args[3] + ".ser");
+
+
+                break;
+            case "decode":
+
+                EncodedFile deserData = Serializer.deserialize(args[3]);
+                System.out.println(deserData.getEncodedString());
+
+                String decodedString = decode(deserData.getTree(), deserData.getEncodedString());
+                String filename = args[3].substring(0, args[3].length() - 4);
+
+                PrintWriter out = new PrintWriter(filename);
+                out.print(decodedString);
+                out.close();
+                System.out.println("Your file was successfully dearchived. Name of file: " + filename);
+
+                break;
+            default:
+                System.err.println("INCORRECT INPUT");
+                break;
         }
-
-        Node<Character> freqTree = buildTree(freqMap);
-
-        System.out.println("CODES:");
-        printCodes(freqTree, new StringBuilder());
-
-        String encodedString = encode(freqTree, input);
-        System.out.println("RESULT OF ENCODING:");
-        System.out.println(encodedString);
-
-        System.out.println("RESULT OF DECODING:");
-        System.out.println(decode(freqTree, encodedString));
     }
 
     public static <T> String encode(Node<T> freqTree, String toEncode) {
@@ -112,22 +131,6 @@ public class Archiver {
                 return left;
         }
         return null;
-    }
-
-    private static <T> void printCodes(Node<T> freqTree, StringBuilder codeString) {
-        assert freqTree != null;
-
-        if (freqTree.getData() != null) {
-            System.out.println(freqTree.getData() + "\t" + freqTree.getFreq() + "\t\t" + codeString);
-        } else if (freqTree.doesHaveChildren()) {
-            codeString.append('0');
-            printCodes(freqTree.getLeftChild(), codeString);
-            codeString.deleteCharAt(codeString.length() - 1);
-
-            codeString.append('1');
-            printCodes(freqTree.getRightChild(), codeString);
-            codeString.deleteCharAt(codeString.length() - 1);
-        }
     }
 
 }
