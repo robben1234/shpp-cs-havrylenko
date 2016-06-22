@@ -11,6 +11,7 @@ import static com.shpp.havrylenko.cs.a2silhouettes.Argb.pixelToARGB;
  * @see
  */
 class Point {
+
     int x;
     int y;
     Argb argb;
@@ -24,6 +25,7 @@ class Point {
     static Point generatePointOutCoords(int x, int y, BufferedImage image) {
 
         int pixel = image.getRGB(x, y);
+
         return new Point(x, y, pixelToARGB(pixel));
 
     }

@@ -7,6 +7,7 @@ package com.shpp.havrylenko.cs.a2silhouettes;
  * @see
  */
 class Argb {
+
     double alpha;
     double red;
     double blue;
