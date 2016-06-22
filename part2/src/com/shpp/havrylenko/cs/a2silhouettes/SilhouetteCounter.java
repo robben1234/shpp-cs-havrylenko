@@ -61,9 +61,13 @@ public class SilhouetteCounter {
      */
     private BufferedImage resizeBigImage(BufferedImage image) {
 
+        // new BufferedImage
         BufferedImage resized = new BufferedImage(BIG_SIZE, BIG_SIZE, BufferedImage.TYPE_3BYTE_BGR);
+        // create Graphics2D to draw into resized
         Graphics2D g2 = resized.createGraphics();
+        // render resized image
         g2.drawImage(image, 0, 0, BIG_SIZE, BIG_SIZE, null);
+        // destroy context and free resources
         g2.dispose();
 
         return resized;
