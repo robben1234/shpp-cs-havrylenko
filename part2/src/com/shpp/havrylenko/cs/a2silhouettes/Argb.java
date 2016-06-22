@@ -1,5 +1,7 @@
 package com.shpp.havrylenko.cs.a2silhouettes;
 
+import java.awt.*;
+
 /**
  * Util class to save info about color of pixel
  *
@@ -26,12 +28,11 @@ class Argb {
      * @return Argb
      */
     static Argb pixelToARGB(int pixel) {
-        int alpha = (pixel >> 24) & 0xff;
-        int red = (pixel >> 16) & 0xff;
-        int green = (pixel >> 8) & 0xff;
-        int blue = (pixel) & 0xff;
 
-        return new Argb(alpha, red, green, blue);
+        Color color = new Color(pixel);
+
+        return new Argb(color.getAlpha(), color.getRed(), color.getGreen(), color.getBlue());
+
     }
 
     @Override
