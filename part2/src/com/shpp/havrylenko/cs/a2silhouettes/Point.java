@@ -5,10 +5,10 @@ import java.awt.image.BufferedImage;
 import static com.shpp.havrylenko.cs.a2silhouettes.Argb.pixelToARGB;
 
 /**
- * <what class do>
+ * Util class of pixel coordinates and color information {@code Argb}
  *
  * @author Kyrylo Havrylenko
- * @see
+ * @see Argb
  */
 class Point {
 
@@ -22,7 +22,14 @@ class Point {
         this.argb = argb;
     }
 
-    static Point generatePointOutCoords(int x, int y, BufferedImage image) {
+    /**
+     * Generates Point instance out of coordinates
+     * @param x Int X coord
+     * @param y Int Y coord
+     * @param image BufferedImage where to take info about pixel
+     * @return Point instance
+     */
+    static Point generatePointOutOfCoords(int x, int y, BufferedImage image) {
 
         int pixel = image.getRGB(x, y);
 

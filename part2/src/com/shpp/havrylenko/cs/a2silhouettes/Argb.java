@@ -1,7 +1,7 @@
 package com.shpp.havrylenko.cs.a2silhouettes;
 
 /**
- * <what class do>
+ * Util class to save info about color of pixel
  *
  * @author Kyrylo Havrylenko
  * @see
@@ -20,6 +20,11 @@ class Argb {
         this.green = green;
     }
 
+    /**
+     * Transforms {@code int} representation of pixel to {@code Argb}
+     * @param pixel int
+     * @return Argb
+     */
     static Argb pixelToARGB(int pixel) {
         int alpha = (pixel >> 24) & 0xff;
         int red = (pixel >> 16) & 0xff;

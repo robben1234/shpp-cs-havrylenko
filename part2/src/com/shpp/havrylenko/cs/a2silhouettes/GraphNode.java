@@ -4,10 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * <what class do>
+ * Graph data structure for {@code Point}
  *
  * @author Kyrylo Havrylenko
- * @see
+ * @see Point
  */
 class GraphNode {
 

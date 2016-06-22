@@ -7,10 +7,10 @@ import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 
-import static com.shpp.havrylenko.cs.a2silhouettes.Point.generatePointOutCoords;
+import static com.shpp.havrylenko.cs.a2silhouettes.Point.generatePointOutOfCoords;
 
 /**
- * <what class do>
+ * Counts silhouettes on user provided pictures
  *
  * @author Kyrylo Havrylenko
  * @see
@@ -25,6 +25,11 @@ public class SilhouetteCounter {
     private GraphNode root;
     private List<GraphNode> graph = new LinkedList<>();
 
+    /**
+     * Entry point of program
+     * @param args console arguments
+     * @throws IOException
+     */
     public static void main(String[] args) throws IOException {
 
         if (args.length != 3) {
@@ -49,6 +54,11 @@ public class SilhouetteCounter {
 
     }
 
+    /**
+     * Resizes user provided big picture to smaller size
+     * @param image BufferedImage picture to resize
+     * @return BufferedImage resized picture
+     */
     private BufferedImage resizeBigImage(BufferedImage image) {
 
         BufferedImage resized = new BufferedImage(BIG_SIZE, BIG_SIZE, BufferedImage.TYPE_3BYTE_BGR);
@@ -60,6 +70,11 @@ public class SilhouetteCounter {
 
     }
 
+    /**
+     * Finds vertex node in graph created from pixel array
+     * @param xy Point with needed coordinates
+     * @return GraphNode with needed coordinates
+     */
     private GraphNode findNodeByCoords(Point xy) {
 
         for (GraphNode node : graph) {
@@ -71,11 +86,15 @@ public class SilhouetteCounter {
 
     }
 
+    /**
+     * Generates graph out of BufferedImage (pixel array)
+     * @param image BufferedImage image to graph
+     */
     private void generateGraphOutOfImage(BufferedImage image) {
 
         for (int y = 0; y < h; y++) {
             for (int x = 0; x < w; x++) {
-                Point xy = generatePointOutCoords(x, y, image);
+                Point xy = generatePointOutOfCoords(x, y, image);
                 GraphNode node = new GraphNode(xy);
                 graph.add(node);
             }
@@ -86,21 +105,30 @@ public class SilhouetteCounter {
 
     }
 
+    /**
+     * Finds neighbors of vertex
+     * @param node GraphNode vertex
+     */
     private void findNeighbors(GraphNode node) {
 
         Point curCoords = node.data;
 
         if (curCoords.x > 0)
-            node.neighbors.add(findNodeByCoords(generatePointOutCoords(curCoords.x - 1, curCoords.y, image)));
+            node.neighbors.add(findNodeByCoords(generatePointOutOfCoords(curCoords.x - 1, curCoords.y, image)));
         if (curCoords.x < w - 1)
-            node.neighbors.add(findNodeByCoords(generatePointOutCoords(curCoords.x + 1, curCoords.y, image)));
+            node.neighbors.add(findNodeByCoords(generatePointOutOfCoords(curCoords.x + 1, curCoords.y, image)));
         if (curCoords.y > 0)
-            node.neighbors.add(findNodeByCoords(generatePointOutCoords(curCoords.x, curCoords.y - 1, image)));
+            node.neighbors.add(findNodeByCoords(generatePointOutOfCoords(curCoords.x, curCoords.y - 1, image)));
         if (curCoords.y < h - 1)
-            node.neighbors.add(findNodeByCoords(generatePointOutCoords(curCoords.x, curCoords.y + 1, image)));
+            node.neighbors.add(findNodeByCoords(generatePointOutOfCoords(curCoords.x, curCoords.y + 1, image)));
 
     }
 
+    /**
+     * Searches graph for silhouettes (via black pixels). Uses depth-first search.
+     * @param root
+     * @param silhouette
+     */
     private void lookForBlack(GraphNode root, Silhouette silhouette) {
 
         root.isVisited = true;
@@ -135,6 +163,11 @@ public class SilhouetteCounter {
 
     }
 
+    /**
+     * Checks if pixel's black
+     * @param argb argb of pixel
+     * @return Boolean true if it's black
+     */
     private boolean isBlack(Argb argb) {
 
         final int notBlack = 160;

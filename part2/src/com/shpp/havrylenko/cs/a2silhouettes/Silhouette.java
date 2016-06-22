@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * <what class do>
+ * Util class to save info about silhouette coordinates and form
  *
  * @author Kyrylo Havrylenko
  * @see

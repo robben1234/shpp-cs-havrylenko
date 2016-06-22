@@ -19,6 +19,12 @@ import static com.shpp.havrylenko.cs.a3huffman.Node.buildTree;
  */
 public class Archiver {
 
+    /**
+     * Entry point of program
+     * @param args console arguments
+     * @throws URISyntaxException
+     * @throws IOException
+     */
     public static void main(String[] args) throws URISyntaxException, IOException {
 
         if (args.length != 4) {
