@@ -1,6 +1,6 @@
 package com.shpp.havrylenko.cs.a1calculator;
 
-import java.util.Stack;
+import com.shpp.havrylenko.cs.a5collections.KStack;
 
 import static com.shpp.havrylenko.cs.a1calculator.UtilCalc.isNumber;
 import static com.shpp.havrylenko.cs.a1calculator.UtilCalc.legalOps;
@@ -29,7 +29,7 @@ class PolishNotationCalculator {
      */
     static Double calculate(String[] expression) {
 
-        Stack<String> stack = new Stack<>();
+        KStack<String> stack = new KStack<>();
 
         for (String token : expression) {
             if (isNumber(token)) {

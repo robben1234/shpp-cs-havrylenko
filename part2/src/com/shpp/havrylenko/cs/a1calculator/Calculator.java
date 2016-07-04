@@ -1,7 +1,8 @@
 package com.shpp.havrylenko.cs.a1calculator;
 
+import com.shpp.havrylenko.cs.a5collections.KHashMap;
+
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Scanner;
 import java.util.stream.Collectors;
@@ -23,7 +24,7 @@ public class Calculator {
      * @param vars Map<String, Double> with variables
      * @return
      */
-    private static String injectVars(String formula, HashMap<String, Double> vars) {
+    private static String injectVars(String formula, KHashMap<String, Double> vars) {
 
         if (vars == null)
             return formula;
@@ -119,7 +120,7 @@ public class Calculator {
      * @param variables HashMap with variables used in formula
      * @return Double result of calculation
      */
-    public static Double calculate(String formula, HashMap<String, Double> variables) {
+    public static Double calculate(String formula, KHashMap<String, Double> variables) {
         formula = injectVars(formula, variables);
         formula = validateFormula(formula);
         return PolishNotationCalculator.calculate(ShuntingYard.toPostfix(injectFunctions(formula)));
@@ -199,7 +200,7 @@ public class Calculator {
         }
 
         Scanner in = new Scanner(System.in);
-        HashMap<String, Double> vars = new HashMap<>();
+        KHashMap<String, Double> vars = new KHashMap<>();
         String formula = "";
 
         System.out.println("Enter variables. By format: <name> <value>\n:next to next stage of input:");

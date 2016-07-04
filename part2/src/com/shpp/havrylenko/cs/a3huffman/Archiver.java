@@ -1,15 +1,16 @@
 package com.shpp.havrylenko.cs.a3huffman;
 
+import com.shpp.havrylenko.cs.a5collections.KHashMap;
+import com.shpp.havrylenko.cs.a5collections.KNode;
+
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.URISyntaxException;
 import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.HashMap;
-import java.util.Map;
 
-import static com.shpp.havrylenko.cs.a3huffman.Node.buildTree;
+import static com.shpp.havrylenko.cs.a5collections.KNode.buildTree;
 
 /**
  * Archives files by Huffman coding algorithm
@@ -41,14 +42,14 @@ public class Archiver {
                 String input = new String(Files.readAllBytes(path));
                 System.out.println(input);
 
-                Map<Character, Integer> freqMap = new HashMap<>();
+                KHashMap<Character, Integer> freqMap = new KHashMap<>();
 
                 for (Character c : input.toCharArray()) {
                     Integer freqC = freqMap.get(c);
                     freqMap.put(c, (freqC != null ? freqC : 0) + 1);
                 }
 
-                Node<Character> freqTree = buildTree(freqMap);
+                KNode<Character> freqTree = buildTree(freqMap);
                 String encodedString = encode(freqTree, input);
                 EncodedFile<Character> resultsOfEncoding = new EncodedFile<>(freqMap, encodedString);
                 Serializer.serialize(args[3], resultsOfEncoding);
@@ -86,7 +87,7 @@ public class Archiver {
      *
      * @return String of encoded data
      */
-    public static <T> String encode(Node<T> freqTree, String toEncode) {
+    public static <T> String encode(KNode<T> freqTree, String toEncode) {
         assert freqTree != null;
 
         String encodedString = "";
@@ -105,31 +106,31 @@ public class Archiver {
      *
      * @return String origin decoded contents
      */
-    public static <T> String decode(Node<T> freqTree, String encodedString) {
+    public static <T> String decode(KNode<T> freqTree, String encodedString) {
         assert freqTree != null;
 
         String decodedString = "";
-        Node<T> node = freqTree;
+        KNode<T> KNode = freqTree;
 
         for (Character code : encodedString.toCharArray()) {
 
-            Node<T> tempNode;
+            KNode<T> tempKNode;
             if (code == '0') {
-                tempNode = node.getLeftChild();
+                tempKNode = KNode.getLeftChild();
             } else if (code == '1') {
-                tempNode = node.getRightChild();
+                tempKNode = KNode.getRightChild();
             } else {
                 System.err.println("ERROR CODE");
                 break;
             }
 
-            T value = tempNode.getData();
+            T value = tempKNode.getData();
 
             if (value != null) {
                 decodedString += value.toString();
-                node = freqTree;
+                KNode = freqTree;
             } else {
-                node = tempNode;
+                KNode = tempKNode;
             }
 
         }
@@ -146,7 +147,7 @@ public class Archiver {
      *
      * @return String Huffman code of {@code element}
      */
-    private static <T> String getCodes(Node<T> freqTree, Character element, StringBuilder codeString) {
+    private static <T> String getCodes(KNode<T> freqTree, Character element, StringBuilder codeString) {
         assert freqTree != null;
 
         if (freqTree.getData() != null) {

@@ -1,7 +1,6 @@
 package com.shpp.havrylenko.cs.a2silhouettes;
 
-import java.util.ArrayList;
-import java.util.List;
+import com.shpp.havrylenko.cs.a5collections.KArrayList;
 
 /**
  * Util class to save info about silhouette coordinates and form
@@ -11,9 +10,9 @@ import java.util.List;
  */
 class Silhouette {
 
-    List<Point> points;
+    KArrayList<Point> points;
 
     Silhouette() {
-        points = new ArrayList<>();
+        points = new KArrayList<>();
     }
 }

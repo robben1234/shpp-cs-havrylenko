@@ -1,6 +1,6 @@
 package com.shpp.havrylenko.cs.a1calculator;
 
-import java.util.Stack;
+import com.shpp.havrylenko.cs.a5collections.KStack;
 
 import static com.shpp.havrylenko.cs.a1calculator.UtilCalc.*;
 
@@ -22,7 +22,7 @@ class ShuntingYard {
     static String toPostfix(String[] input) {
 
         String output = "";
-        Stack<String> operators = new Stack<>();
+        KStack<String> operators = new KStack<>();
 
 
         for (String token : input) {
