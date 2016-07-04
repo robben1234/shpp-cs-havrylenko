@@ -26,7 +26,7 @@ public class Mandelbrot {
     private static int calculateSet(Complex z0) {
         Complex z = z0;
         for (int i = 0; i < MAX_ITER; i++) {
-            // если модуль z больше 2, значит последовательность стремится к inf
+            // если квадрат z больше 2, значит последовательность стремится к inf
             if (z.abs() > 2.0)
                 return i;
             z = z.mult(z).plus(z0);

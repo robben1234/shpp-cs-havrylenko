@@ -9,13 +9,13 @@ import java.util.List;
  * @author Kyrylo Havrylenko
  * @see Point
  */
-class KGraphNode {
+class GraphNode {
 
     boolean isVisited;
-    List<KGraphNode> neighbors;
+    List<GraphNode> neighbors;
     Point data;
 
-    KGraphNode(Point point) {
+    GraphNode(Point point) {
         isVisited = false;
         neighbors = new ArrayList<>();
         data = point;

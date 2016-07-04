@@ -7,9 +7,8 @@ package com.shpp.havrylenko.cs.a3huffman;
  *
  */
 
-import com.shpp.havrylenko.cs.a5collections.KHashMap;
-
 import java.io.Serializable;
+import java.util.Map;
 
 /**
  * Util class to save data for serialization or deserialization
@@ -21,20 +20,20 @@ import java.io.Serializable;
  */
 public class EncodedFile<T> implements Serializable {
 
-    //    KNode<T> tree;
+    //    Node<T> tree;
     String encodedString;
-    KHashMap<Character, Integer> freqs;
+    Map<Character, Integer> freqs;
 
-    EncodedFile(KHashMap<Character, Integer> freqs, String encodedString) {
+    EncodedFile(Map<Character, Integer> freqs, String encodedString) {
         this.freqs = freqs;
         this.encodedString = encodedString;
     }
 
-    public KHashMap<Character, Integer> getFreqs() {
+    public Map<Character, Integer> getFreqs() {
         return freqs;
     }
 
-    public void setFreqs(KHashMap<Character, Integer> freqs) {
+    public void setFreqs(Map<Character, Integer> freqs) {
         this.freqs = freqs;
     }
 

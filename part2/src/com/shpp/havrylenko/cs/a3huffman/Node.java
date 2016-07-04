@@ -1,6 +1,8 @@
-package com.shpp.havrylenko.cs.a5collections;
+package com.shpp.havrylenko.cs.a3huffman;
 
 import java.io.Serializable;
+import java.util.Map;
+import java.util.PriorityQueue;
 
 /**
  * Tree data structure for Huffman coding
@@ -8,25 +10,25 @@ import java.io.Serializable;
  * @author Kyrylo Havrylenko
  * @see
  */
-public class KNode<T> implements Comparable<KNode<T>>, Serializable {
+public class Node<T> implements Comparable<Node<T>>, Serializable {
 
     protected int freq;
     protected T data;
-    protected KNode<T> parent;
-    protected KNode<T> leftChild;
-    protected KNode<T> rightChild;
+    protected Node<T> parent;
+    protected Node<T> leftChild;
+    protected Node<T> rightChild;
 
-    public KNode(int freq) {
+    public Node(int freq) {
         this.freq = freq;
     }
 
-    public KNode(KNode<T> left, KNode<T> right) {
+    public Node(Node<T> left, Node<T> right) {
         this(left.getFreq() + right.getFreq());
         leftChild = left;
         rightChild = right;
     }
 
-    public KNode(int freq, T val) {
+    public Node(int freq, T val) {
         this(freq);
         data = val;
     }
@@ -38,21 +40,21 @@ public class KNode<T> implements Comparable<KNode<T>>, Serializable {
      * @param freqMap Map of Characters and Frequencies
      * @param <T>     Character
      *
-     * @return KNode<T> head of tree
+     * @return Node<T> root of tree
      */
-    public static <T> KNode<T> buildTree(KHashMap<T, Integer> freqMap) {
+    public static <T> Node<T> buildTree(Map<T, Integer> freqMap) {
 
-        KPriorityQueue<KNode<T>> nodes = new KPriorityQueue<>();
+        PriorityQueue<Node<T>> nodes = new PriorityQueue<>();
 
         freqMap.keySet()
                .stream()
-               .forEach(key -> nodes.offer(new KNode<T>(freqMap.get(key), key)));
+               .forEach(key -> nodes.offer(new Node<>(freqMap.get(key), key)));
 
         while (nodes.size() > 1) {
-            KNode<T> left = nodes.poll();
-            KNode<T> right = nodes.poll();
+            Node<T> left = nodes.poll();
+            Node<T> right = nodes.poll();
 
-            nodes.offer(new KNode<>(left, right));
+            nodes.offer(new Node<>(left, right));
         }
 
         return nodes.poll();
@@ -74,37 +76,37 @@ public class KNode<T> implements Comparable<KNode<T>>, Serializable {
         this.data = data;
     }
 
-    public KNode<T> getParent() {
+    public Node<T> getParent() {
         return parent;
     }
 
-    public void setParent(KNode<T> parent) {
+    public void setParent(Node<T> parent) {
         this.parent = parent;
     }
 
-    public KNode<T> getLeftChild() {
+    public Node<T> getLeftChild() {
         return leftChild;
     }
 
-    public void setLeftChild(KNode<T> leftChild) {
+    public void setLeftChild(Node<T> leftChild) {
         this.leftChild = leftChild;
     }
 
-    public KNode<T> getRightChild() {
+    public Node<T> getRightChild() {
         return rightChild;
     }
 
-    public void setRightChild(KNode<T> rightChild) {
+    public void setRightChild(Node<T> rightChild) {
         this.rightChild = rightChild;
     }
 
     @Override
-    public int compareTo(KNode KNode) {
-        return freq - KNode.getFreq();
+    public int compareTo(Node node) {
+        return freq - node.getFreq();
     }
 
     /**
-     * Determines if {@code KNode} has children
+     * Determines if {@code Node} has children
      *
      * @return Boolean true if does have children
      */

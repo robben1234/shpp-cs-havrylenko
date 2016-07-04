@@ -1,11 +1,11 @@
 package com.shpp.havrylenko.cs.a2silhouettes;
 
-import com.shpp.havrylenko.cs.a5collections.KLinkedList;
-
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.LinkedList;
+import java.util.List;
 
 import static com.shpp.havrylenko.cs.a2silhouettes.Point.generatePointOutOfCoords;
 
@@ -21,9 +21,9 @@ public class SilhouetteCounter {
     private static BufferedImage image;
     private static int w;
     private static int h;
-    private KLinkedList<Silhouette> silhouettes = new KLinkedList<>();
-    private KGraphNode root;
-    private KLinkedList<KGraphNode> graph = new KLinkedList<>();
+    private List<Silhouette> silhouettes = new LinkedList<>();
+    private GraphNode root;
+    private List<GraphNode> graph = new LinkedList<>();
 
     /**
      * Entry point of program
@@ -77,11 +77,11 @@ public class SilhouetteCounter {
     /**
      * Finds vertex node in graph created from pixel array
      * @param xy Point with needed coordinates
-     * @return KGraphNode with needed coordinates
+     * @return GraphNode with needed coordinates
      */
-    private KGraphNode findNodeByCoords(Point xy) {
+    private GraphNode findNodeByCoords(Point xy) {
 
-        for (KGraphNode node : graph) {
+        for (GraphNode node : graph) {
             if (node.data.x == xy.x && node.data.y == xy.y)
                 return node;
         }
@@ -99,7 +99,7 @@ public class SilhouetteCounter {
         for (int y = 0; y < h; y++) {
             for (int x = 0; x < w; x++) {
                 Point xy = generatePointOutOfCoords(x, y, image);
-                KGraphNode node = new KGraphNode(xy);
+                GraphNode node = new GraphNode(xy);
                 graph.add(node);
             }
         }
@@ -111,9 +111,9 @@ public class SilhouetteCounter {
 
     /**
      * Finds neighbors of vertex
-     * @param node KGraphNode vertex
+     * @param node GraphNode vertex
      */
-    private void findNeighbors(KGraphNode node) {
+    private void findNeighbors(GraphNode node) {
 
         Point curCoords = node.data;
 
@@ -133,7 +133,7 @@ public class SilhouetteCounter {
      * @param root
      * @param silhouette
      */
-    private void lookForBlack(KGraphNode root, Silhouette silhouette) {
+    private void lookForBlack(GraphNode root, Silhouette silhouette) {
 
         root.isVisited = true;
 
@@ -141,7 +141,7 @@ public class SilhouetteCounter {
             silhouette.points.add(root.data);
 
             for (int i = 0; i < root.neighbors.size(); i++) {
-                KGraphNode node = root.neighbors.get(i);
+                GraphNode node = root.neighbors.get(i);
                 if (node.isVisited)
                     continue;
                 node.isVisited = true;
@@ -159,7 +159,7 @@ public class SilhouetteCounter {
         }
 
         for (int i = 0; i < root.neighbors.size(); i++) {
-            KGraphNode node = root.neighbors.get(i);
+            GraphNode node = root.neighbors.get(i);
             if (!node.isVisited)
                 lookForBlack(node, new Silhouette());
 
