@@ -39,7 +39,7 @@ public class Archiver {
 
                 Path path = FileSystems.getDefault().getPath(args[3]);
                 String input = new String(Files.readAllBytes(path));
-                System.out.println(input);
+//                System.out.println(input);
 
                 Map<Character, Integer> freqMap = new HashMap<>();
 
@@ -63,6 +63,8 @@ public class Archiver {
 
                 freqTree = buildTree(deserializedData.getFreqs());
                 String decodedString = decode(freqTree, deserializedData.getEncodedString());
+//                System.out.println(decodedString);
+//                byte[] decodedBytes = decodedString.getBytes();
                 String filename = args[3].substring(0, args[3].length() - 4);
 
                 PrintWriter out = new PrintWriter(filename);
