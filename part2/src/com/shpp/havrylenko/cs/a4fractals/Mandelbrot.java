@@ -16,6 +16,7 @@ public class Mandelbrot {
     private static final int MAX_ITER = 255;
     private static final Complex MIN = new Complex(-0.7, 0.3);
     private static final double SCALE = 1.5;
+    private static final double SEQUENCE_EDGE_BEFORE_INF = 2.;
     private static int picSize;
 
     /**
@@ -26,8 +27,7 @@ public class Mandelbrot {
     private static int calculateSet(Complex z0) {
         Complex z = z0;
         for (int i = 0; i < MAX_ITER; i++) {
-            // если квадрат z больше 2, значит последовательность стремится к inf
-            if (z.abs() > 2.0)
+            if (z.abs() > SEQUENCE_EDGE_BEFORE_INF)
                 return i;
             z = z.mult(z).plus(z0);
         }
